@@ -2,3 +2,5 @@
 *.map
 node_modules
 api/vendor
+*.sqlite3
+.brackets.json
