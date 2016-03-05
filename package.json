@@ -2,26 +2,31 @@
   "name": "Convocatoria-Bucaneros",
   "version": "0.0.1",
   "scripts": {
+    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
-    "test": "lite-server --open src --indexFile unit-tests.html --port 3002"
+    "typings": "typings",
+    "postinstall": "typings install",
+    "test": "lite-server -c bs-config-tests.json"
   },
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.1",
-    "systemjs": "0.19.6",
+    "angular2": "2.0.0-beta.8",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
+    "moment": "^2.11.2",
+    "ng2-bootstrap": "^1.0.5",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.0",
-    "zone.js": "0.5.10"
+    "rxjs": "5.0.0-beta.2",
+    "systemjs": "0.19.22",
+    "zone.js": "0.5.15"
   },
   "devDependencies": {
-    "concurrently": "^1.0.0",
+    "concurrently": "^2.0.0",
+    "lite-server": "^2.0.2",
     "jasmine-core": "2.4.1",
-    "lite-server": "^1.3.1",
-    "typescript": "1.7.3"
+    "typescript": "^1.8.2",
+    "typings": "^0.6.8"
   }
 }

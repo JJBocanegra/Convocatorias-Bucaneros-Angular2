@@ -1,31 +1,52 @@
+<!DOCTYPE HTML>
 <html>
 
-<head>
-  <title>Bucaneros</title>
+  <head>
+    <meta charset="utf-8">
+    <title>Club Bucaneros Rugby - Convocatorias</title>
 
-  <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-  <script src="node_modules/systemjs/dist/system.src.js"></script>
-  <script src="node_modules/rxjs/bundles/Rx.js"></script>
-  <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
-  <script src="node_modules/angular2/bundles/http.dev.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <script>
-    System.config({
-      packages: {
-        app: {
-          format: 'register',
-          defaultExtension: 'js'
+    <meta property="og:title" content="Convocatorias" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://bucaneros.esy.es" />
+    <meta property="og:image" content="http://bucaneros.esy.es/images/teams/bucaneros.png" />
+    <meta property="og:site_name" content="Club Bucaneros Rugby" />
+    <meta property="og:description" content="El Club Bucaneros Rugby, fundado en Gines durante la temporada del 2010, es un equipo de rugby amateur que juega en la liga RAMA. Entrenamos lunes, miercoles y jueves a las 21:00h." />
+
+    <meta name="description" content="El Club Bucaneros Rugby, fundado en Gines durante la temporada del 2010, es un equipo de rugby amateur que juega en la liga RAMA. Entrenamos lunes, miercoles y jueves a las 21:00h." />
+
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+    <script src="node_modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
+
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+
+    <script src="node_modules/angular2/bundles/http.dev.js"></script>
+
+    <script src="node_modules/moment/min/moment.min.js"></script>
+
+    <script>
+      System.config({
+        packages: {
+          app: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
         }
-      }
-    });
-    System.import('app/boot')
-      .then(null, console.error.bind(console));
-  </script>
+      });
+      System.import('app/main')
+        .then(null, console.error.bind(console));
+    </script>
 
-</head>
+  </head>
 
-<body>
-  <my-app></my-app>
-</body>
+  <body>
+    <my-app></my-app>
+  </body>
 
 </html>
