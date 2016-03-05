@@ -8,27 +8,60 @@ import {MatchInfoService} from './match-info.service';
   providers: [MatchInfoService],
 })
 export class MatchInfo implements OnInit {
-  public matches: Match[];
-  public lastMatch: Object = {};
+  public confirmedPlayers: Object[] = [];
+  public injuredPlayers: Object[] = [];
+  public matches: Match[] = [];
+  public nextMatch: Match;
+  public notConfirmedPlayers: Object[] = [];
 
-  constructor(private _matchInfoService: MatchInfoService) {
+  constructor(private matchInfoService: MatchInfoService) { }
+
+  ngOnInit(): void {
+    this.getNextMatch();
   }
 
-  ngOnInit() {
-    this.getMatches();
-    this.getLastMatch();
-  }
-
-  getMatches() {
-    this._matchInfoService.getMatches().then(matches => this.matches = matches);
-  }
-
-  getLastMatch() {
-    this._matchInfoService.getLastMatch()
+  getNextMatch(): void {
+    this.matchInfoService.getNextMatch()
       .subscribe(
         response => {
-          console.log(response[0]);
-          this.lastMatch = response[0];
+          this.nextMatch = response[0];
+          this.getPlayers();
+        },
+        error => console.log(error)
+      );
+  }
+
+  getPlayers(): void {
+    this.getConfirmedPlayers();
+    this.getNotConfirmedPlayers();
+    this.getInjuredPlayers();
+  }
+
+  getConfirmedPlayers(): void {
+    this.matchInfoService.getConfirmedPlayersByMatchId(this.nextMatch.matchId)
+      .subscribe(
+        response => {
+          this.confirmedPlayers = response;
+        },
+        error => console.log(error)
+      );
+  }
+
+  getNotConfirmedPlayers(): void {
+    this.matchInfoService.getNotConfirmedPlayersByMatchId(this.nextMatch.matchId)
+      .subscribe(
+        response => {
+          this.notConfirmedPlayers = response;
+        },
+        error => console.log(error)
+      );
+  }
+
+  getInjuredPlayers(): void {
+    this.matchInfoService.getInjuredPlayersByMatchId(this.nextMatch.matchId)
+      .subscribe(
+        response => {
+          this.injuredPlayers = response;
         },
         error => console.log(error)
       );
