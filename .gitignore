@@ -4,3 +4,5 @@ node_modules
 api/vendor
 *.sqlite3
 .brackets.json
+npm-debug.log
+typings
