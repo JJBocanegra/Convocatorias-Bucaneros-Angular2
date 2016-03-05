@@ -9,37 +9,35 @@ class MatchPlayer {
     $this->DBUtils = new DBUtils();
   }
 
+  function GetPlayerStats($matchId) {
+    //TODO: Crear la sentencia
+  }
+
   function GetConfirmedPlayers($matchId) {
     $sentence = "
       SELECT mp.*, p.*, p.name || ' ' || p.surname as fullName
       FROM MatchPlayer mp, Player p, Match m
       WHERE m.matchId = $matchId
       AND mp.matchId = m.matchId
-      AND mp.playerId = p.playerId";
+      AND mp.playerId = p.playerId
+      ORDER BY p.surname";
 
     return $this->DBUtils->QuerySelect($sentence);
   }
 
   function GetNotConfirmedPlayers($matchId) {
-    //TODO Separar
-    $month = (int)date('m');
-    $year = date('Y');
-
-    $season = "";
-
-    if ($month >= 9) {
-      $season = $year.'-'.(((int)$year)+1);
-    } else {
-      $season = (((int)$year)-1).'-'.$year;
-    }
-
     $sentence = "
-      SELECT p.*, p.name || ' ' || p.surname as fullName
-      FROM Player p
-      WHERE p.playerId IN (SELECT playerId From YearPlayer WHERE year = '$season')
-      AND p.playerId NOT IN (SELECT playerId FROM MatchPlayer WHERE matchId = ".$matchId.")
-      AND p.playerId NOT IN (SELECT playerId FROM InjuredPlayer WHERE matchId = ".$matchId.")
-      AND p.playerId NOT IN (SELECT playerId FROM InactivePlayer)";
+      SELECT DISTINCT p.*, (p.name || ' ' || p.surname) as fullName
+      FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
+      WHERE m.matchId = $matchId
+      AND p.playerId NOT IN (SELECT playerId FROM GetAllMatchPlayers WHERE matchId = m.matchId)
+      AND p.playerId NOT IN (SELECT playerId FROM GetAllInjuredPlayers WHERE matchId = m.matchId)
+      AND p.playerId = sp.playerId
+      AND s.seasonId = sp.seasonId
+      AND m.dateTime > s.beginDate
+      AND m.dateTime < s.endDate
+      AND m.dateTime > sp.incorporationDate
+      ORDER BY p.surname";
 
     return $this->DBUtils->QuerySelect($sentence);
   }
@@ -50,7 +48,8 @@ class MatchPlayer {
       FROM InjuredPlayer ip, Player p, Match m
       WHERE m.matchId = $matchId
       AND ip.matchId = m.matchId
-      AND ip.playerId = p.playerId";
+      AND ip.playerId = p.playerId
+      ORDER BY p.surname";
 
     return $this->DBUtils->querySelect($sentence);
   }

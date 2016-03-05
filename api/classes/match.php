@@ -11,7 +11,7 @@ class Match {
 
   function GetMatches() {
     $sentence = "
-      SELECT m.matchId, m.datetime, m.state, local.name as local, visitor.name as visitor, local.localization, local.urlLocalization
+      SELECT m.matchId, m.datetime, m.state, local.name as localTeam, visitor.name as visitorTeam, local.localization, local.urlLocalization
       FROM Match m, Team local, Team visitor
       WHERE local.teamId = m.localTeamId
       AND visitor.teamId = m.visitorTeamId";
@@ -21,7 +21,7 @@ class Match {
 
   function GetLastMatch() {
     $sentence = "
-      SELECT m.matchId, m.datetime, m.state, local.name as local, visitor.name as visitor, local.localization, local.urlLocalization
+      SELECT m.matchId, m.datetime, m.state, local.name as localTeam, visitor.name as visitorTeam, local.localization, local.urlLocalization
       FROM Match m, Team local, Team visitor
       WHERE local.teamId = m.localTeamId
       AND visitor.teamId = m.visitorTeamId
