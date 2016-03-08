@@ -1,11 +1,12 @@
 import {Component, OnInit} from 'angular2/core';
 import {Match} from './match';
 import {MatchInfoService} from './match-info.service';
+import {PlayerService} from '../player/player.service'
 
 @Component({
   selector: 'match-info',
   templateUrl: 'app/match-info/match-info.html',
-  providers: [MatchInfoService],
+  providers: [MatchInfoService, PlayerService],
 })
 export class MatchInfo implements OnInit {
   public confirmedPlayers: Object[] = [];
@@ -14,7 +15,7 @@ export class MatchInfo implements OnInit {
   public nextMatch: Match;
   public notConfirmedPlayers: Object[] = [];
 
-  constructor(private matchInfoService: MatchInfoService) { }
+  constructor(private matchInfoService: MatchInfoService, private playerService: PlayerService) { }
 
   ngOnInit(): void {
     this.getNextMatch();
@@ -41,7 +42,8 @@ export class MatchInfo implements OnInit {
     this.matchInfoService.getConfirmedPlayersByMatchId(this.nextMatch.matchId)
       .subscribe(
         response => {
-          this.confirmedPlayers = response;
+          var players = this.playerService.getFullNameWithoutLastSurnameOfPlayers(response);
+          this.confirmedPlayers = players;
         },
         error => console.log(error)
       );
@@ -51,7 +53,8 @@ export class MatchInfo implements OnInit {
     this.matchInfoService.getNotConfirmedPlayersByMatchId(this.nextMatch.matchId)
       .subscribe(
         response => {
-          this.notConfirmedPlayers = response;
+          var players = this.playerService.getFullNameWithoutLastSurnameOfPlayers(response);
+          this.notConfirmedPlayers = players;
         },
         error => console.log(error)
       );
@@ -61,7 +64,8 @@ export class MatchInfo implements OnInit {
     this.matchInfoService.getInjuredPlayersByMatchId(this.nextMatch.matchId)
       .subscribe(
         response => {
-          this.injuredPlayers = response;
+          var players = this.playerService.getFullNameWithoutLastSurnameOfPlayers(response);
+          this.injuredPlayers = players;
         },
         error => console.log(error)
       );
