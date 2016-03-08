@@ -22,6 +22,7 @@ class DBUtils {
   //TODO Mirar como cambiar la ruta de la BBDD
   function CreateConnection() {
     $db = new PDO("sqlite:../db.sqlite3");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     return $db;
   }
