@@ -15,20 +15,19 @@ class MatchPlayer {
 
   function GetConfirmedPlayers($matchId) {
     $sentence = "
-      SELECT mp.*, p.*, p.name || ' ' || p.surname as fullName
+      SELECT mp.*, p.*
       FROM MatchPlayer mp, Player p, Match m
       WHERE m.matchId = $matchId
       AND mp.matchId = m.matchId
       AND mp.playerId = p.playerId
-      ORDER BY p.surname";
+      ORDER BY p.firstSurname";
 
     return $this->DBUtils->QuerySelect($sentence);
   }
 
   function GetNotConfirmedPlayers($matchId) {
     $sentence = "
-      SELECT DISTINCT p.*, (p.name || ' ' || p.surname) as fullName
-      FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
+      SELECT DISTINCT p.* FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
       WHERE m.matchId = $matchId
       AND p.playerId NOT IN (SELECT playerId FROM GetAllMatchPlayers WHERE matchId = m.matchId)
       AND p.playerId NOT IN (SELECT playerId FROM GetAllInjuredPlayers WHERE matchId = m.matchId)
@@ -37,19 +36,19 @@ class MatchPlayer {
       AND m.dateTime > s.beginDate
       AND m.dateTime < s.endDate
       AND m.dateTime > sp.incorporationDate
-      ORDER BY p.surname";
+      ORDER BY p.firstSurname";
 
     return $this->DBUtils->QuerySelect($sentence);
   }
 
   function GetInjuredPlayers($matchId) {
     $sentence = "
-      SELECT ip.*, p.*, p.name || ' ' || p.surname as fullName
+      SELECT ip.*, p.*
       FROM InjuredPlayer ip, Player p, Match m
       WHERE m.matchId = $matchId
       AND ip.matchId = m.matchId
       AND ip.playerId = p.playerId
-      ORDER BY p.surname";
+      ORDER BY p.firstSurname";
 
     return $this->DBUtils->querySelect($sentence);
   }
