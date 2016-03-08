@@ -8,7 +8,8 @@
     "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
-    "test": "lite-server -c bs-config-tests.json"
+    "test2": "lite-server -c bs-config-tests.json",
+    "test": "lite-server --open src --indexFile unit-tests.html --port 3002"
   },
   "license": "ISC",
   "dependencies": {
