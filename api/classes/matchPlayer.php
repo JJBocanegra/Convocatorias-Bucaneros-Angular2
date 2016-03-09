@@ -1,15 +1,18 @@
 <?php
-require_once 'DBUtils.php';
-require_once 'Assertions.php';
+require_once 'dbUtils.php';
+require_once 'assertions.php';
+require_once 'classes/player.php';
 
 class MatchPlayer {
 
   private $DBUtils;
   private $Assertions;
+  private $Player;
 
   public function __construct() {
     $this->DBUtils = new DBUtils();
     $this->Assertions = new Assertions();
+    $this->Player = new Player();
   }
 
   function GetPlayerStats($matchId) {
@@ -75,7 +78,7 @@ class MatchPlayer {
         VALUES($matchId, $playerId)";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->GetPlayer($playerId);
+        return $this->Player->GetPlayer($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be added to the match $matchId. The SQL sentence was $sentence");
       }
@@ -95,25 +98,10 @@ class MatchPlayer {
         VALUES($matchId, $playerId)";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->GetPlayer($playerId);
+        return $this->Player->GetPlayer($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be added to injured players in match $matchId. The SQL sentence was $sentence");
       }
-    } catch (Exception $e) {
-      return "Error: ".$e->getMessage();
-    }
-  }
-
-  function GetPlayer($playerId) {
-    try {
-      $this->Assertions->AssertIsNumber($playerId, 'playerId');
-
-      $sentence = "
-        SELECT *
-        FROM Player
-        WHERE playerId = $playerId";
-
-      return $this->DBUtils->QuerySelect($sentence);
     } catch (Exception $e) {
       return "Error: ".$e->getMessage();
     }
