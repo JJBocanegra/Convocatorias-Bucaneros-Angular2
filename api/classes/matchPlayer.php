@@ -1,12 +1,15 @@
 <?php
 require_once 'DBUtils.php';
+require_once 'Assertions.php';
 
 class MatchPlayer {
 
   private $DBUtils;
+  private $Assertions;
 
   public function __construct() {
     $this->DBUtils = new DBUtils();
+    $this->Assertions = new Assertions();
   }
 
   function GetPlayerStats($matchId) {
@@ -26,6 +29,8 @@ class MatchPlayer {
   }
 
   function GetNotConfirmedPlayers($matchId) {
+    $this->Assertions->AssertIsNumber($matchId, 'matchId');
+
     $sentence = "
       SELECT DISTINCT p.* FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
       WHERE m.matchId = $matchId
@@ -42,62 +47,76 @@ class MatchPlayer {
   }
 
   function GetInjuredPlayers($matchId) {
-    $sentence = "
-      SELECT ip.*, p.*
-      FROM InjuredPlayer ip, Player p, Match m
-      WHERE m.matchId = $matchId
-      AND ip.matchId = m.matchId
-      AND ip.playerId = p.playerId
-      ORDER BY p.firstSurname";
+    try {
+      $this->Assertions->AssertIsNumber($matchId, 'matchId');
 
-    return $this->DBUtils->querySelect($sentence);
+      $sentence = "
+        SELECT ip.*, p.*
+        FROM InjuredPlayer ip, Player p, Match m
+        WHERE m.matchId = $matchId
+        AND ip.matchId = m.matchId
+        AND ip.playerId = p.playerId
+        ORDER BY p.firstSurname";
+
+      return $this->DBUtils->querySelect($sentence);
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
+    }
   }
 
-  function AddPlayer($matchId, $playerName) {
+  function AddPlayer($matchId, $playerId) {
     try {
-      if (!is_numeric($matchId)) {
-        throw new Exception("The argument \$matchId should be a number, actually is $matchId");
-      }
-
-      if (is_numeric($playerName)) {
-        throw new Exception("The argument \$playerName should be a string, actually is $playerName");
-      }
+      $this->Assertions->AssertIsNumber($matchId, 'matchId');
+      $this->Assertions->AssertIsNumber($playerId, 'playerId');
 
       $sentence = "
         INSERT INTO MatchPlayer
         ('matchId', 'playerId')
-        VALUES($matchId,
-          (SELECT playerId FROM Player WHERE name || ' ' || surname LIKE '$playerName'))";
+        VALUES($matchId, $playerId)";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->GetPlayer($playerName);
+        return $this->GetPlayer($playerId);
       } else {
-        throw new Exception("The player $playerName couldn't be added to the match $matchId. The SQL sentence was $sentence");
+        throw new Exception("The player $playerId couldn't be added to the match $matchId. The SQL sentence was $sentence");
       }
     } catch (Exception $e) {
       return "Error: ".$e->getMessage();
     }
   }
 
-  function AddInjuredPlayer($matchId, $playerName) {
-    $sentence = "
-      INSERT INTO InjuredPlayer
-      ('matchId', 'playerId')
-      VALUES($matchId,
-      (SELECT playerId FROM Player WHERE name || ' ' || surname LIKE '$playerName'))";
+  function AddInjuredPlayer($matchId, $playerId) {
+    try {
+      $this->Assertions->AssertIsNumber($matchId, 'matchId');
+      $this->Assertions->AssertIsNumber($playerId, 'playerId');
 
-    if ($this->DBUtils->Query($sentence) === 1) {
-      return $this->GetPlayer($playerName);
+      $sentence = "
+        INSERT INTO InjuredPlayer
+        ('matchId', 'playerId')
+        VALUES($matchId, $playerId)";
+
+      if ($this->DBUtils->Query($sentence) === 1) {
+        return $this->GetPlayer($playerId);
+      } else {
+        throw new Exception("The player $playerId couldn't be added to injured players in match $matchId. The SQL sentence was $sentence");
+      }
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
     }
   }
 
-  function GetPlayer($playerName) {
-    $sentence = "
-      SELECT *, name || ' ' || surname as fullName
-      FROM Player
-      WHERE name || ' ' || surname LIKE '$playerName'";
+  function GetPlayer($playerId) {
+    try {
+      $this->Assertions->AssertIsNumber($playerId, 'playerId');
 
-    return $this->DBUtils->QuerySelect($sentence);
+      $sentence = "
+        SELECT *
+        FROM Player
+        WHERE playerId = $playerId";
+
+      return $this->DBUtils->QuerySelect($sentence);
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
+    }
   }
 }
 ?>
