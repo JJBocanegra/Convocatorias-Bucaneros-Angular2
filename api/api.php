@@ -52,14 +52,14 @@ $app->get('/matches/{matchId}/players/confirmed', function($matchId) use ($app) 
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/confirmed/add/{playerName}', function($matchId, $playerName) use ($app) {
-  $result = $app['matchPlayer']->AddPlayer($matchId, $playerName);
+$app->get('/matches/{matchId}/players/confirmed/add/{playerId}', function($matchId, $playerId) use ($app) {
+  $result = $app['matchPlayer']->AddPlayer($matchId, $playerId);
 
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/confirmed/remove/{playerName}', function($matchId, $playerName) use ($app) {
-  $result = $app['matchPlayer']->RemovePlayerFromMatch($matchId, $playerName);
+$app->get('/matches/{matchId}/players/confirmed/remove/{playerId}', function($matchId, $playerId) use ($app) {
+  $result = $app['matchPlayer']->RemovePlayerFromMatch($matchId, $playerId);
 
   return getState($app, $result);
 });
@@ -76,20 +76,20 @@ $app->get('/matches/{matchId}/players/injured', function($matchId) use ($app) {
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/injured/add/{playerName}', function($matchId, $playerName) use ($app) {
-  $result = $app['matchPlayer']->AddInjuredPlayer($matchId, $playerName);
+$app->get('/matches/{matchId}/players/injured/add/{playerId}', function($matchId, $playerId) use ($app) {
+  $result = $app['matchPlayer']->AddInjuredPlayer($matchId, $playerId);
 
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/injured/remove/{playerName}', function($matchId, $playerName) use ($app) {
-  $result = $app['matchPlayer']->RemoveInjuredPlayer($matchId, $playerName);
+$app->get('/matches/{matchId}/players/injured/remove/{playerId}', function($matchId, $playerId) use ($app) {
+  $result = $app['matchPlayer']->RemoveInjuredPlayer($matchId, $playerId);
 
   return getState($app, $result);
 });
 
-$app->get('/players/{playerName}', function($playerName) use ($app) {
-  $result = $app['matchPlayer']->GetPlayer($playerName);
+$app->get('/players/{playerId}', function($playerId) use ($app) {
+  $result = $app['matchPlayer']->GetPlayer($playerId);
 
   return getState($app, $result);
 });
