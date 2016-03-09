@@ -7,14 +7,30 @@ export class PlayerService {
 
   constructor() { }
 
-  getFullNameWithoutLastSurnameOfPlayers(players: Player[]) :Player[] {
+  getPlayerById(playerId: number, players: Player[]): Player {
+    for (var i = players.length - 1; i >= 0; i--) {
+      if (players[i].playerId === playerId) {
+        return players[i];
+      }
+    }
+
+    return null;
+  }
+
+  getPlayersFullNames(players: Player[]) :Player[] {
     var player;
 
-    for (var i = 0, length = players.length; i < length; i++) {
+    for (var i = players.length - 1; i >= 0; i--) {
       player = players[i];
-      player.fullName = player.name + ' ' + player.firstSurname;
+      player = this.getPlayerFullName(player);
     }
 
     return players;
+  }
+
+  getPlayerFullName(player: Player) :Player {
+    player.fullName = player.name + ' ' + player.firstSurname;
+
+    return player;
   }
 }
