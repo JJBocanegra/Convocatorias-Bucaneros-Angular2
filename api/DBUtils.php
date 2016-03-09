@@ -1,30 +1,46 @@
 <?php
 class DBUtils {
   function Query($sentence) {
-    $db = $this->createConnection();
-    $result = $db->exec($sentence);
+    try {
+      $db = $this->createConnection();
+      $result = $db->exec($sentence);
 
-    return $result;
+      return $result;
+    } catch(Exception $e) {
+      $this->showError($e);
+    }
   }
 
   function QuerySelect($sentence) {
-    $db = $this->createConnection();
-    $result = $db->query($sentence, PDO::FETCH_ASSOC);
+    try {
+      $db = $this->createConnection();
+      $result = $db->query($sentence, PDO::FETCH_ASSOC);
 
-    $array = array();
-    foreach ($result as $row) {
-      array_push($array, $row);
+      $array = array();
+      foreach ($result as $row) {
+        array_push($array, $row);
+      }
+
+      return $array;
+    } catch(Exception $e) {
+      $this->showError($e);
     }
-
-    return $array;
   }
 
   //TODO Mirar como cambiar la ruta de la BBDD
   function CreateConnection() {
-    $db = new PDO("sqlite:../db.sqlite3");
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+      $db = new PDO("sqlite:../db.sqlite3");
+      $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    return $db;
+      return $db;
+    } catch(Exception $e) {
+      $this->showError($e);
+    }
+  }
+
+  function showError($error) {
+    echo 'Exception: ', $error->getMessage(), "\n Location: ", $error->getFile(),' (', $error->getLine(), ')';
   }
 }
 ?>
