@@ -1,5 +1,5 @@
 <?php
-require_once 'Helper.php';
+require_once 'helper.php';
 
 class Assertions {
   private $Helper;
