@@ -10,6 +10,17 @@
   <span>Bajas: {{injuredPlayers.length}}</span>
 </div>
 
+<div>
+  <select [(ngModel)]="selectedPlayer">
+    <option></option>
+    <option *ngFor="#player of notConfirmedPlayers" value="{{player.playerId}}">
+      {{player.fullName}}
+    </option>
+  </select>
+  <button (click)="confirmPlayer()">Añadir</button>
+  <button (click)="addInjuredPlayer()">Dar de baja</button>
+</div>
+
 <h3>Confirmados</h3>
 <ul>
   <li *ngFor="#player of confirmedPlayers">
