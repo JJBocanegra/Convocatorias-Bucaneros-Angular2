@@ -42,4 +42,20 @@ export class MatchInfoService {
         .map(res => res.json())
         .catch(this.helperService.handleError);
   }
+
+  confirmPlayer(matchId: number, playerId: number): any {
+    var url = this.url + '/matches/' + matchId + '/players/confirmed/add/' + playerId;
+
+    return this.http.get(url)
+        .map(res => res.json()[0])
+        .catch(this.helperService.handleError);
+  }
+
+  addInjuredPlayer(matchId: number, playerId: number): any {
+    var url = this.url + '/matches/' + matchId + '/players/injured/add/' + playerId;
+
+    return this.http.get(url)
+        .map(res => res.json()[0])
+        .catch(this.helperService.handleError);
+  }
 }
