@@ -59,7 +59,7 @@ $app->get('/matches/{matchId}/players/confirmed/add/{playerId}', function($match
 });
 
 $app->get('/matches/{matchId}/players/confirmed/remove/{playerId}', function($matchId, $playerId) use ($app) {
-  $result = $app['matchPlayer']->RemovePlayerFromMatch($matchId, $playerId);
+  $result = $app['matchPlayer']->RemoveConfirmedPlayer($matchId, $playerId);
 
   return getState($app, $result);
 });

@@ -106,5 +106,45 @@ class MatchPlayer {
       return "Error: ".$e->getMessage();
     }
   }
+
+  function RemoveInjuredPlayer($matchId, $playerId) {
+    try {
+      $this->Assertions->AssertIsNumber($matchId, 'matchId');
+      $this->Assertions->AssertIsNumber($playerId, 'playerId');
+
+      $sentence = "
+        DELETE FROM InjuredPlayer
+        WHERE matchId = $matchId
+        AND playerId = $playerId";
+
+      if ($this->DBUtils->Query($sentence) === 1) {
+        return $this->Player->GetPlayer($playerId);
+      } else {
+        throw new Exception("The player $playerId couldn't be removed from injured players in match $matchId. The SQL sentence was $sentence");
+      }
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
+    }
+  }
+
+  function RemoveConfirmedPlayer($matchId, $playerId) {
+    try {
+      $this->Assertions->AssertIsNumber($matchId, 'matchId');
+      $this->Assertions->AssertIsNumber($playerId, 'playerId');
+
+      $sentence = "
+        DELETE FROM MatchPlayer
+        WHERE matchId = $matchId
+        AND playerId = $playerId";
+
+      if ($this->DBUtils->Query($sentence) === 1) {
+        return $this->Player->GetPlayer($playerId);
+      } else {
+        throw new Exception("The player $playerId couldn't be removed from confirmed players in match $matchId. The SQL sentence was $sentence");
+      }
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
+    }
+  }
 }
 ?>

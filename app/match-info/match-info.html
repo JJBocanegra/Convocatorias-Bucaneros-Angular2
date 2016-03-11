@@ -17,14 +17,16 @@
       {{player.fullName}}
     </option>
   </select>
-  <button (click)="confirmPlayer()">Añadir</button>
-  <button (click)="addInjuredPlayer()">Dar de baja</button>
+  <button (click)="confirmPlayer(selectedPlayer)">Confirmar</button>
+  <button (click)="addInjuredPlayer(selectedPlayer)">Dar de baja</button>
 </div>
 
 <h3>Confirmados</h3>
 <ul>
   <li *ngFor="#player of confirmedPlayers">
     {{player.fullName}}
+    <button (click)="removeConfirmedPlayer(player)">Eliminar</button>
+      <button (click)="addConfirmedPlayerToInjuredPlayers(player)">Dar de baja</button>
   </li>
 </ul>
 
@@ -32,6 +34,8 @@
 <ul>
   <li *ngFor="#player of notConfirmedPlayers">
     {{player.fullName}}
+    <button (click)="addInjuredPlayer(player)">Dar de baja</button>
+    <button (click)="confirmPlayer(player)">Confirmar</button>
   </li>
 </ul>
 
@@ -39,5 +43,7 @@
 <ul>
   <li *ngFor="#player of injuredPlayers">
     {{player.fullName}}
+    <button (click)="removeInjuredPlayer(player)">Eliminar</button>
+    <button (click)="confirmInjuredPlayer(player)">Confirmar</button>
   </li>
 </ul>
