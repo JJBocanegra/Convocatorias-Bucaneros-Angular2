@@ -55,7 +55,11 @@ export class MatchInfo implements OnInit {
   }
 
   confirmPlayer(player: Player): void {
-    this.matchInfoService.confirmPlayer(this.nextMatch.matchId, player.playerId)
+    this.confirmPlayerById(player.playerId);
+  }
+
+  confirmPlayerById(playerId: number): void {
+    this.matchInfoService.confirmPlayer(this.nextMatch.matchId, playerId)
     .subscribe(
       player => {
         this.getConfirmedPlayers();
@@ -102,7 +106,11 @@ export class MatchInfo implements OnInit {
   }
 
   addInjuredPlayer(player: Player): void {
-    this.matchInfoService.addInjuredPlayer(this.nextMatch.matchId, player.playerId)
+    this.addInjuredPlayerById(player.playerId);
+  }
+
+  addInjuredPlayerById(playerId: number): void {
+    this.matchInfoService.addInjuredPlayer(this.nextMatch.matchId, playerId)
     .subscribe(
       player => {
         this.getInjuredPlayers();
