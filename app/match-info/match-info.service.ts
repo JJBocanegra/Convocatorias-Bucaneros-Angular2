@@ -11,7 +11,7 @@ export class MatchInfoService {
   constructor(private http: Http, private dateTimeService: DateTimeService, private helperService: HelperService) { }
 
   getNextMatch(): any {
-    var url = this.url + '/matches/last' //TODO La llamada a la api debería ser `next` en vez de `last`
+    var url = this.url + '/matches/next' //TODO La llamada a la api debería ser `next` en vez de `last`
 
     return this.http.get(url)
         .map(res => res.json())

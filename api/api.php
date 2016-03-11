@@ -34,8 +34,8 @@ $app->get('/matches/', function() use ($app) {
   return getState($app, $result);
 });
 
-$app->get('/matches/last', function() use ($app) {
-  $result = $app['match']->GetLastMatch();
+$app->get('/matches/next', function() use ($app) {
+  $result = $app['match']->GetNextMatch();
 
   return getState($app, $result);
 });

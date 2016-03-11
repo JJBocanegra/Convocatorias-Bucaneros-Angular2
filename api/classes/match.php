@@ -19,12 +19,13 @@ class Match {
     return $this->DBUtils->QuerySelect($sentence);
   }
 
-  function GetLastMatch() {
+  function GetNextMatch() {
     $sentence = "
       SELECT m.matchId, m.datetime, m.state, local.name as localTeam, visitor.name as visitorTeam, local.localization, local.urlLocalization
       FROM Match m, Team local, Team visitor
       WHERE local.teamId = m.localTeamId
       AND visitor.teamId = m.visitorTeamId
+      AND m.dateTime > strftime('%Y/%m/%d %H:%M', 'now', 'localtime')
       ORDER BY m.matchId DESC
       LIMIT 1";
 
