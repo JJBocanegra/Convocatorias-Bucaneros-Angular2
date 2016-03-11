@@ -18,6 +18,10 @@ export class DateTimeService {
   }
 
   getCompleteDateTime(dateTime: string): string {
-    return moment(dateTime, 'YYYY-MM-DD').format('dddd DD [de] MMMM [de] YYYY [a las] HH:MM[h]');
+    if (dateTime.indexOf(':') === -1) {
+      return moment(dateTime, 'YYYY-MM-DD').format('dddd DD [de] MMMM [de] YYYY');
+    }
+
+    return moment(dateTime, 'YYYY-MM-DD HH:mm').format('dddd DD [de] MMMM [de] YYYY [a las] HH:mm[h]');
   }
 }
