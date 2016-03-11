@@ -17,7 +17,7 @@ export class PlayerService {
     return null;
   }
 
-  getPlayersFullNames(players: Player[]) :Player[] {
+  getPlayersFullNames(players: Player[]): Player[] {
     var player;
 
     for (var i = players.length - 1; i >= 0; i--) {
@@ -25,12 +25,37 @@ export class PlayerService {
       player = this.getPlayerFullName(player);
     }
 
+    players = this.sortPlayers(players);
+
     return players;
   }
 
-  getPlayerFullName(player: Player) :Player {
+  getPlayerFullName(player: Player): Player {
     player.fullName = player.name + ' ' + player.firstSurname;
 
     return player;
+  }
+
+  private sortPlayers(players: Player[]): Player[] {
+    var sortedPlayers = players.sort(function (a: any, b: any) {
+      var comparison;
+
+      comparison = a.firstSurname.localeCompare(b.firstSurname);
+      if (comparison !== 0) {
+        return comparison;
+      }
+
+      comparison = a.secondSurname.localeCompare(b.secondSurname);
+      if (comparison !== 0) {
+        return comparison;
+      }
+
+      comparison = a.name.localeCompare(b.name);
+      if (comparison !== 0) {
+        return comparison;
+      }
+    })
+
+    return sortedPlayers;
   }
 }
