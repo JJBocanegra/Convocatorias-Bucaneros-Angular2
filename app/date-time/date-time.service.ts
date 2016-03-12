@@ -1,11 +1,11 @@
 import {Injectable} from 'angular2/core';
 
-declare var moment: any;
+declare let moment: any;
 
 @Injectable()
 export class DateTimeService {
   constructor() {
-    moment.locale('es',  {
+    moment.locale('es', {
       months: [
         'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
         'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
@@ -18,10 +18,30 @@ export class DateTimeService {
   }
 
   getCompleteDateTime(dateTime: string): string {
-    if (dateTime.indexOf(':') === -1) {
-      return moment(dateTime, 'YYYY-MM-DD').format('dddd DD [de] MMMM [de] YYYY');
-    }
+    try {
+      if (dateTime === null || dateTime === undefined || dateTime === '') {
+        return null;
+      }
 
-    return moment(dateTime, 'YYYY-MM-DD HH:mm').format('dddd DD [de] MMMM [de] YYYY [a las] HH:mm[h]');
+      if (dateTime.indexOf(':') === -1) {
+        return moment(dateTime, 'YYYY-MM-DD').format('dddd DD [de] MMMM [de] YYYY');
+      }
+
+      return moment(dateTime, 'YYYY-MM-DD HH:mm').format('dddd DD [de] MMMM [de] YYYY [a las] HH:mm[h]');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getBirthDate(date: string): string {
+    try {
+      if (date === null || date === undefined || date === '') {
+        return null;
+      }
+
+      return moment(date, 'YYYY-MM-DD').format('DD [de] MMMM [de] YYYY')
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
