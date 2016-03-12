@@ -44,4 +44,15 @@ export class DateTimeService {
       console.error(error);
     }
   }
+
+  calculateAge(birthDate: string): string {
+    if (birthDate === null || birthDate === undefined || birthDate === '') {
+      return null;
+    }
+
+    let birth = moment(birthDate, 'YYYY-MM-DD');
+    let today = moment();
+
+    return today.diff(birth, 'years');
+  }
 }
