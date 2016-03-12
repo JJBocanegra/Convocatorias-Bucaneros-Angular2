@@ -2,17 +2,19 @@ import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {Player} from './player';
 import {PlayerService} from './player.service';
+import {DateTimeService} from '../date-time/date-time.service';
 
 @Component({
   selector: 'player',
   templateUrl: 'app/player/player.html',
-  providers: [PlayerService],
+  providers: [PlayerService, DateTimeService],
 })
 export class PlayerInfo implements OnInit {
   public player: Player;
 
   constructor(
     private playerService: PlayerService,
+    private dateTimeService: DateTimeService,
     private routeParams: RouteParams) { }
 
   ngOnInit(): void {
@@ -20,7 +22,7 @@ export class PlayerInfo implements OnInit {
     this.getPlayerById(playerId);
   }
 
-  getPlayerById(playerId: string) {
+  getPlayerById(playerId: string): any {
     this.playerService.getPlayerById(playerId)
       .subscribe(
         player => {
@@ -28,5 +30,13 @@ export class PlayerInfo implements OnInit {
         },
         error => { }
       );
+  }
+
+  showFormatedDate(birthDate: string): string {
+    return this.dateTimeService.getBirthDate(birthDate);
+  }
+
+  calculateAge(birthDate: string): string {
+    return this.dateTimeService.calculateAge(birthDate);
   }
 }

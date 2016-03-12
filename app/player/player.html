@@ -6,7 +6,7 @@
     <span *ngIf="!player.nickname">No tiene</span>
   </p>
   <p>Fecha de nacimiento:
-    <span *ngIf="player.birthDate">{{player.birthDate}}</span>
+    <span *ngIf="player.birthDate">{{showFormatedDate(player.birthDate)}} ({{calculateAge(player.birthDate)}} años)</span>
     <span *ngIf="!player.birthDate">Desconocida</span>
   </p>
 </div>
