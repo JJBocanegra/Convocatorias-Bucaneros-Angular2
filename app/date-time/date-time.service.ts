@@ -5,7 +5,7 @@ declare let moment: any;
 @Injectable()
 export class DateTimeService {
   constructor() {
-    moment.locale('es', {
+    moment.updateLocale('es', {
       months: [
         'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
         'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
