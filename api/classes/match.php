@@ -26,6 +26,7 @@ class Match {
       WHERE local.teamId = m.localTeamId
       AND visitor.teamId = m.visitorTeamId
       AND m.dateTime > strftime('%Y/%m/%d %H:%M', 'now', 'localtime')
+      AND m.localTeamId = 1 OR m.visitorTeamId = 1
       ORDER BY m.matchId DESC
       LIMIT 1";
 
