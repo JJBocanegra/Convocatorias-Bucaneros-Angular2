@@ -4,6 +4,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 require 'vendor/autoload.php';
+require 'classes/player.php';
 require 'classes/match.php';
 require 'classes/matchPlayer.php';
 
@@ -21,6 +22,17 @@ function getState($app, $result) {
 
   return $app->json($result, 200);
 }
+
+//********************PLAYER********************
+$app['player'] = function($app) {
+  return new Player();
+};
+
+$app->get('/players/{playerId}', function($playerId) use ($app) {
+  $result = $app['player']->GetPlayerById($playerId);
+
+  return getState($app, $result);
+});
 
 //TODO Separar estas dos funcionalidades en clases distintas
 //********************MATCH********************
@@ -84,12 +96,6 @@ $app->get('/matches/{matchId}/players/injured/add/{playerId}', function($matchId
 
 $app->get('/matches/{matchId}/players/injured/remove/{playerId}', function($matchId, $playerId) use ($app) {
   $result = $app['matchPlayer']->RemoveInjuredPlayer($matchId, $playerId);
-
-  return getState($app, $result);
-});
-
-$app->get('/players/{playerId}', function($playerId) use ($app) {
-  $result = $app['matchPlayer']->GetPlayer($playerId);
 
   return getState($app, $result);
 });

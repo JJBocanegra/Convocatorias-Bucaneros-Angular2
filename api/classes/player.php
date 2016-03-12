@@ -12,7 +12,7 @@ class Player {
     $this->Assertions = new Assertions();
   }
 
-  function GetPlayer($playerId) {
+  function GetPlayerById($playerId) {
     try {
       $this->Assertions->AssertIsNumber($playerId, 'playerId');
 

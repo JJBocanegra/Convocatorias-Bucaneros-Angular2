@@ -15,7 +15,7 @@ class MatchPlayer {
     $this->Player = new Player();
   }
 
-  function GetPlayerStats($matchId) {
+  function GetPlayerByIdStats($matchId) {
     //TODO: Crear la sentencia
   }
 
@@ -78,7 +78,7 @@ class MatchPlayer {
         VALUES($matchId, $playerId)";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->Player->GetPlayer($playerId);
+        return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be added to the match $matchId. The SQL sentence was $sentence");
       }
@@ -98,7 +98,7 @@ class MatchPlayer {
         VALUES($matchId, $playerId)";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->Player->GetPlayer($playerId);
+        return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be added to injured players in match $matchId. The SQL sentence was $sentence");
       }
@@ -118,7 +118,7 @@ class MatchPlayer {
         AND playerId = $playerId";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->Player->GetPlayer($playerId);
+        return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be removed from injured players in match $matchId. The SQL sentence was $sentence");
       }
@@ -138,7 +138,7 @@ class MatchPlayer {
         AND playerId = $playerId";
 
       if ($this->DBUtils->Query($sentence) === 1) {
-        return $this->Player->GetPlayer($playerId);
+        return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be removed from confirmed players in match $matchId. The SQL sentence was $sentence");
       }
