@@ -4,21 +4,18 @@ import {Observable} from 'rxjs/Observable';
 import {CONFIG} from '../CONFIG';
 import {Player} from './player';
 import {HelperService} from '../helper/helper.service';
-import {DateTimeService} from '../date-time/date-time.service';
 
 @Injectable()
 export class PlayerService {
   constructor(
     private http: Http,
-    private helperService: HelperService,
-    private dateTimeService: DateTimeService) { }
+    private helperService: HelperService) { }
 
   getPlayerById(playerId: any): any {
     var url = CONFIG.apiUrl + '/players/' + playerId;
 
     return this.http.get(url)
         .map(res => res.json()[0])
-        .do(player => player.birthDate = this.dateTimeService.getBirthDate(player.birthDate))
         .catch(this.helperService.handleError);
   }
 
