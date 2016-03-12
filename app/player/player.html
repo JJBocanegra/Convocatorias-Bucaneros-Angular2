@@ -1,0 +1,12 @@
+<div *ngIf="player">
+  <p>Nombre: {{player.name}}</p>
+  <p>Apellidos: {{player.firstSurname}} {{player.secondSurname}}</p>
+  <p>Apodo:
+    <span *ngIf="player.nickname">{{player.nickname}}</span>
+    <span *ngIf="!player.nickname">No tiene</span>
+  </p>
+  <p>Fecha de nacimiento:
+    <span *ngIf="player.birthDate">{{player.birthDate}}</span>
+    <span *ngIf="!player.birthDate">Desconocida</span>
+  </p>
+</div>
