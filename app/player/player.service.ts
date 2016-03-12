@@ -1,13 +1,28 @@
 import {Injectable} from 'angular2/core';
+import {Http, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
+import {CONFIG} from '../CONFIG';
 import {Player} from './player';
+import {HelperService} from '../helper/helper.service';
+import {DateTimeService} from '../date-time/date-time.service';
 
 @Injectable()
 export class PlayerService {
-  private url = 'http://localhost/Convocatorias-Bucaneros-Angular2/api/api.php';
+  constructor(
+    private http: Http,
+    private helperService: HelperService,
+    private dateTimeService: DateTimeService) { }
 
-  constructor() { }
+  getPlayerById(playerId: any): any {
+    var url = CONFIG.apiUrl + '/players/' + playerId;
 
-  getPlayerById(playerId: number, players: Player[]): Player {
+    return this.http.get(url)
+        .map(res => res.json()[0])
+        .do(player => player.birthDate = this.dateTimeService.getBirthDate(player.birthDate))
+        .catch(this.helperService.handleError);
+  }
+
+  getPlayerByIdFromPlayerList(playerId: number, players: Player[]): Player {
     for (var i = players.length - 1; i >= 0; i--) {
       if (players[i].playerId === playerId) {
         return players[i];
