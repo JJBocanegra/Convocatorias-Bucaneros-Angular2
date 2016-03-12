@@ -1,9 +1,9 @@
 import {Component, OnInit} from 'angular2/core';
+import {Router} from 'angular2/router';
 import {Match} from './match';
 import {Player} from '../player/player';
 import {MatchInfoService} from './match-info.service';
 import {PlayerService} from '../player/player.service';
-import {HelperService} from '../helper/helper.service';
 
 @Component({
   selector: 'match-info',
@@ -21,7 +21,7 @@ export class MatchInfo implements OnInit {
   constructor(
     private matchInfoService: MatchInfoService,
     private playerService: PlayerService,
-    private helperService: HelperService) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getNextMatch();
@@ -30,8 +30,8 @@ export class MatchInfo implements OnInit {
   getNextMatch(): void {
     this.matchInfoService.getNextMatch()
       .subscribe(
-        response => {
-          this.nextMatch = response[0];
+        match => {
+          this.nextMatch = match;
           this.getPlayers();
         },
         error => {}
@@ -134,5 +134,9 @@ export class MatchInfo implements OnInit {
       },
       error => {}
     );
+  }
+
+  goToPlayerInfo(player: Player) {
+    this.router.navigate(['PlayerInfo', {id: player.playerId}]);
   }
 }
