@@ -1,27 +1,28 @@
 <?php
 class DBUtils {
-  function Query($sentence) {
+  function Query($sentence, $parameters = array()) {
     try {
       $db = $this->createConnection();
-      $result = $db->exec($sentence);
+      $result = $db->prepare($sentence);
+      $result->execute($parameters);
 
-      return $result;
+      CloseConnection($db);
+
+      return $result->rowCount();
     } catch(Exception $e) {
       $this->showError($e);
     }
   }
 
-  function QuerySelect($sentence) {
+  function QuerySelect($sentence, $parameters = array()) {
     try {
       $db = $this->createConnection();
-      $result = $db->query($sentence, PDO::FETCH_ASSOC);
+      $result = $db->prepare($sentence);
+      $result->execute($parameters);
 
-      $array = array();
-      foreach ($result as $row) {
-        array_push($array, $row);
-      }
+      CloseConnection($db);
 
-      return $array;
+      return $result->fetchAll(PDO::FETCH_ASSOC);
     } catch(Exception $e) {
       $this->showError($e);
     }
@@ -37,6 +38,10 @@ class DBUtils {
     } catch(Exception $e) {
       $this->showError($e);
     }
+  }
+
+  function CloseConnection($db) {
+    $db = null;
   }
 
   function showError($error) {

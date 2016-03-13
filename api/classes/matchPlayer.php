@@ -20,33 +20,46 @@ class MatchPlayer {
   }
 
   function GetConfirmedPlayers($matchId) {
-    $sentence = "
-      SELECT mp.*, p.*
-      FROM MatchPlayer mp, Player p, Match m
-      WHERE m.matchId = $matchId
-      AND mp.matchId = m.matchId
-      AND mp.playerId = p.playerId
-      ORDER BY p.firstSurname";
+    try {
+      $sentence = "
+        SELECT p.*
+        FROM MatchPlayer mp, Player p, Match m
+        WHERE m.matchId = ?
+        AND mp.matchId = m.matchId
+        AND mp.playerId = p.playerId
+        ORDER BY p.firstSurname";
 
-    return $this->DBUtils->QuerySelect($sentence);
+      $parameters = array($matchId);
+
+      return $this->DBUtils->QuerySelect($sentence, $parameters);
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
+    }
   }
 
   function GetNotConfirmedPlayers($matchId) {
-    $this->Assertions->AssertIsNumber($matchId, 'matchId');
+    try {
+      $this->Assertions->AssertIsNumber($matchId, 'matchId');
 
-    $sentence = "
-      SELECT DISTINCT p.* FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
-      WHERE m.matchId = $matchId
-      AND p.playerId NOT IN (SELECT playerId FROM GetAllMatchPlayers WHERE matchId = m.matchId)
-      AND p.playerId NOT IN (SELECT playerId FROM GetAllInjuredPlayers WHERE matchId = m.matchId)
-      AND p.playerId = sp.playerId
-      AND s.seasonId = sp.seasonId
-      AND m.dateTime > s.beginDate
-      AND m.dateTime < s.endDate
-      AND m.dateTime > sp.incorporationDate
-      ORDER BY p.firstSurname";
+      $sentence = "
+        SELECT DISTINCT p.*
+        FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
+        WHERE m.matchId = ?
+        AND p.playerId NOT IN (SELECT playerId FROM GetAllMatchPlayers WHERE matchId = m.matchId)
+        AND p.playerId NOT IN (SELECT playerId FROM GetAllInjuredPlayers WHERE matchId = m.matchId)
+        AND p.playerId = sp.playerId
+        AND s.seasonId = sp.seasonId
+        AND m.dateTime > s.beginDate
+        AND m.dateTime < s.endDate
+        AND m.dateTime > sp.incorporationDate
+        ORDER BY p.firstSurname";
 
-    return $this->DBUtils->QuerySelect($sentence);
+      $parameters = array($matchId);
+
+      return $this->DBUtils->QuerySelect($sentence, $parameters);
+    } catch (Exception $e) {
+      return "Error: ".$e->getMessage();
+    }
   }
 
   function GetInjuredPlayers($matchId) {
@@ -54,14 +67,16 @@ class MatchPlayer {
       $this->Assertions->AssertIsNumber($matchId, 'matchId');
 
       $sentence = "
-        SELECT ip.*, p.*
+        SELECT p.*
         FROM InjuredPlayer ip, Player p, Match m
-        WHERE m.matchId = $matchId
+        WHERE m.matchId = ?
         AND ip.matchId = m.matchId
         AND ip.playerId = p.playerId
         ORDER BY p.firstSurname";
 
-      return $this->DBUtils->querySelect($sentence);
+      $parameters = array($matchId);
+
+      return $this->DBUtils->QuerySelect($sentence, $parameters);
     } catch (Exception $e) {
       return "Error: ".$e->getMessage();
     }
@@ -75,9 +90,11 @@ class MatchPlayer {
       $sentence = "
         INSERT INTO MatchPlayer
         ('matchId', 'playerId')
-        VALUES($matchId, $playerId)";
+        VALUES(?, ?)";
 
-      if ($this->DBUtils->Query($sentence) === 1) {
+      $parameters = array($matchId, $playerId);
+
+      if ($this->DBUtils->Query($sentence, $parameters) === 1) {
         return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be added to the match $matchId. The SQL sentence was $sentence");
@@ -95,9 +112,11 @@ class MatchPlayer {
       $sentence = "
         INSERT INTO InjuredPlayer
         ('matchId', 'playerId')
-        VALUES($matchId, $playerId)";
+        VALUES(?, ?)";
 
-      if ($this->DBUtils->Query($sentence) === 1) {
+      $parameters = array($matchId, $playerId);
+
+      if ($this->DBUtils->Query($sentence, $parameters) === 1) {
         return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be added to injured players in match $matchId. The SQL sentence was $sentence");
@@ -114,10 +133,12 @@ class MatchPlayer {
 
       $sentence = "
         DELETE FROM InjuredPlayer
-        WHERE matchId = $matchId
-        AND playerId = $playerId";
+        WHERE matchId = ?
+        AND playerId = ?";
 
-      if ($this->DBUtils->Query($sentence) === 1) {
+      $parameters = array($matchId, $playerId);
+
+      if ($this->DBUtils->Query($sentence, $parameters) === 1) {
         return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be removed from injured players in match $matchId. The SQL sentence was $sentence");
@@ -134,10 +155,12 @@ class MatchPlayer {
 
       $sentence = "
         DELETE FROM MatchPlayer
-        WHERE matchId = $matchId
-        AND playerId = $playerId";
+        WHERE matchId = ?
+        AND playerId = ?";
 
-      if ($this->DBUtils->Query($sentence) === 1) {
+      $parameters = array($matchId, $playerId);
+
+      if ($this->DBUtils->Query($sentence, $parameters) === 1) {
         return $this->Player->GetPlayerById($playerId);
       } else {
         throw new Exception("The player $playerId couldn't be removed from confirmed players in match $matchId. The SQL sentence was $sentence");

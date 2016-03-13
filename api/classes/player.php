@@ -19,9 +19,11 @@ class Player {
       $sentence = "
         SELECT *
         FROM Player
-        WHERE playerId = $playerId";
+        WHERE playerId = ?";
 
-      return $this->DBUtils->QuerySelect($sentence);
+        $parameters = array($playerId);
+
+      return $this->DBUtils->QuerySelect($sentence, $parameters);
     } catch (Exception $e) {
       return "Error: ".$e->getMessage();
     }
