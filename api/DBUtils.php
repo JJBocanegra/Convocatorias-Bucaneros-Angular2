@@ -2,13 +2,9 @@
 class DBUtils {
   function Query($sentence, $parameters = array()) {
     try {
-      $db = $this->createConnection();
-      $result = $db->prepare($sentence);
-      $result->execute($parameters);
+      $statement = $this->executeStatement($sentence, $parameters);
 
-      $this->CloseConnection($db);
-
-      return $result->rowCount();
+      return $statement->rowCount();
     } catch(Exception $e) {
       $this->showError($e);
     }
@@ -16,16 +12,22 @@ class DBUtils {
 
   function QuerySelect($sentence, $parameters = array()) {
     try {
-      $db = $this->createConnection();
-      $result = $db->prepare($sentence);
-      $result->execute($parameters);
+      $statement = $this->executeStatement($sentence, $parameters);
 
-      $this->CloseConnection($db);
-
-      return $result->fetchAll(PDO::FETCH_ASSOC);
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
     } catch(Exception $e) {
       $this->showError($e);
     }
+  }
+
+  function executeStatement($sentence, $parameters) {
+    $db = $this->createConnection();
+    $statement = $db->prepare($sentence);
+    $statement->execute($parameters);
+
+    $this->CloseConnection($db);
+
+    return $statement;
   }
 
   //TODO Mirar como cambiar la ruta de la BBDD
