@@ -6,7 +6,7 @@ class DBUtils {
       $result = $db->prepare($sentence);
       $result->execute($parameters);
 
-      CloseConnection($db);
+      $this->CloseConnection($db);
 
       return $result->rowCount();
     } catch(Exception $e) {
@@ -20,7 +20,7 @@ class DBUtils {
       $result = $db->prepare($sentence);
       $result->execute($parameters);
 
-      CloseConnection($db);
+      $this->CloseConnection($db);
 
       return $result->fetchAll(PDO::FETCH_ASSOC);
     } catch(Exception $e) {
