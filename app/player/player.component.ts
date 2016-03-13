@@ -11,6 +11,8 @@ import {DateTimeService} from '../date-time/date-time.service';
 })
 export class PlayerInfo implements OnInit {
   public player: Player;
+  private playerCopy: Player;
+  private editingPlayer: boolean = false;
 
   constructor(
     private playerService: PlayerService,
@@ -36,7 +38,52 @@ export class PlayerInfo implements OnInit {
     return this.dateTimeService.getBirthDate(birthDate);
   }
 
+  showNickname() {
+    if (!this.player.nickname) {
+      return 'No tiene';
+
+    }
+
+    return this.player.nickname;
+  }
+
+  showBirthDate() {
+    let formattedBirthDate;
+    let age;
+
+    if (!this.player.birthDate) {
+      return 'Desconocida';
+    }
+
+    formattedBirthDate = this.showFormatedDate(this.player.birthDate);
+    age = this.calculateAge(this.player.birthDate)
+
+    return formattedBirthDate + ' (' + age + ' años)';
+  }
+
   calculateAge(birthDate: string): string {
     return this.dateTimeService.calculateAge(birthDate);
+  }
+
+  editPlayer(): void {
+    this.editingPlayer = true;
+    this.playerCopy = JSON.parse(JSON.stringify(this.player));
+  }
+
+  saveEditedPlayer(): void {
+    this.editingPlayer = false;
+
+    this.playerService.updatePlayer(this.player)
+      .subscribe(
+        player => {
+          this.player = player;
+        },
+        error => { }
+      );
+  }
+
+  cancelEditedPlayer(): void {
+    this.editingPlayer = false;
+    this.player = this.playerCopy;
   }
 }

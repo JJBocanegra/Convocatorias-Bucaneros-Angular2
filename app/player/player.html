@@ -1,12 +1,30 @@
 <div *ngIf="player">
-  <p>Nombre: {{player.name}}</p>
-  <p>Apellidos: {{player.firstSurname}} {{player.secondSurname}}</p>
-  <p>Apodo:
-    <span *ngIf="player.nickname">{{player.nickname}}</span>
-    <span *ngIf="!player.nickname">No tiene</span>
+  <button *ngIf="!editingPlayer" (click)="editPlayer()">Editar</button>
+  <button *ngIf="editingPlayer" (click)="saveEditedPlayer()">Guardar</button>
+  <button *ngIf="editingPlayer" (click)="cancelEditedPlayer()">Cancelar</button>
+
+  <p>
+    Nombre:
+    <span *ngIf="!editingPlayer">{{player.name}}</span>
+    <input *ngIf="editingPlayer" [(ngModel)]="player.name" type="text" />
   </p>
-  <p>Fecha de nacimiento:
-    <span *ngIf="player.birthDate">{{showFormatedDate(player.birthDate)}} ({{calculateAge(player.birthDate)}} años)</span>
-    <span *ngIf="!player.birthDate">Desconocida</span>
+
+  <p>
+    Apellidos:
+    <span *ngIf="!editingPlayer">{{player.firstSurname}} {{player.secondSurname}}</span>
+    <input *ngIf="editingPlayer" [(ngModel)]="player.firstSurname" type="text" />
+    <input *ngIf="editingPlayer" [(ngModel)]="player.secondSurname" type="text" />
+  </p>
+
+  <p>
+    Apodo:
+    <span *ngIf="!editingPlayer">{{showNickname()}}</span>
+    <input *ngIf="editingPlayer" [(ngModel)]="player.nickname" type="text" />
+  </p>
+
+  <p>
+    Fecha de nacimiento:
+    <span *ngIf="!editingPlayer">{{showBirthDate()}}</span>
+    <input *ngIf="editingPlayer" [(ngModel)]="player.birthDate" placeholder="aaaa-mm-dd" type="text" />
   </p>
 </div>
