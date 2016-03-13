@@ -9,7 +9,9 @@ CREATE TABLE "SeasonPlayer" (
 	`seasonId`	INTEGER,
 	`playerId`	INTEGER,
 	`incorporationDate`	INTEGER DEFAULT 0,
-	PRIMARY KEY(seasonId,playerId)
+	PRIMARY KEY(seasonId,playerId),
+	FOREIGN KEY(`seasonId`) REFERENCES `Season`(`seasonId`),
+	FOREIGN KEY(`playerId`) REFERENCES `Player`(`playerId`)
 );
 CREATE TABLE "Season" (
 	`seasonId`	INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,7 +21,8 @@ CREATE TABLE "Season" (
 CREATE TABLE "Player" (
 	`playerId`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`name`	TEXT NOT NULL,
-	`surname`	TEXT,
+	`firstSurname`	TEXT,
+	`secondSurname`	TEXT,
 	`nickname`	TEXT UNIQUE,
 	`birthDate`	TEXT,
 	`hasImage`	INTEGER DEFAULT 0
@@ -33,7 +36,9 @@ CREATE TABLE "MatchPlayer" (
 	`dropGoals`	INTEGER DEFAULT 0,
 	`yellowCards`	INTEGER DEFAULT 0,
 	`redCards`	INTEGER DEFAULT 0,
-	PRIMARY KEY(matchId,playerId)
+	PRIMARY KEY(matchId,playerId),
+	FOREIGN KEY(`matchId`) REFERENCES `Match`(`matchId`),
+	FOREIGN KEY(`playerId`) REFERENCES `Player`(`playerId`)
 );
 CREATE TABLE "Match" (
 	`matchId`	INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,13 +49,15 @@ CREATE TABLE "Match" (
 	`localScore`	INTEGER,
 	`visitorScore`	INTEGER
 );
-CREATE TABLE `InjuredPlayer` (
+CREATE TABLE "InjuredPlayer" (
 	`matchId`	INTEGER,
 	`playerId`	INTEGER,
-	PRIMARY KEY(matchId,playerId)
+	PRIMARY KEY(matchId,playerId),
+	FOREIGN KEY(`matchId`) REFERENCES `Match`(`matchId`),
+	FOREIGN KEY(`playerId`) REFERENCES `Player`(`playerId`)
 );
 CREATE VIEW GetNotConfirmedPlayersFromLastMatch AS
-SELECT p.*, (p.name || ' ' || p.surname) as fullName 
+SELECT p.*, (p.name || ' ' || p.firstSurname || ' ' || p.secondSurname) as fullName 
 FROM Player p 
 WHERE p.playerId NOT IN (SELECT playerId FROM MatchPlayer WHERE matchId = (SELECT MAX(matchId) FROM Match)) 
 AND p.playerId NOT IN (SELECT playerId FROM InjuredPlayer WHERE matchId = (SELECT MAX(matchId) FROM Match)) 
@@ -65,7 +72,7 @@ FROM Season
 WHERE today > beginDate
 AND today < endDate;
 CREATE VIEW GetAllNotConfirmedPlayers AS
-SELECT DISTINCT m.matchId, p.playerId, (p.name || ' ' || p.surname) as fullName, p.nickname, m.dateTime, localTeam.name as local, visitorTeam.name as visitor
+SELECT DISTINCT m.matchId, p.playerId, (p.name || ' ' || p.firstSurname || ' ' || p.secondSurname) as fullName, p.nickname, m.dateTime, localTeam.name as local, visitorTeam.name as visitor
 FROM Player p, Match m, SeasonPlayer sp, Season s, Team localTeam, Team visitorTeam
 WHERE p.playerId NOT IN (SELECT playerId FROM GetAllMatchPlayers WHERE matchId = m.matchId)
 AND p.playerId NOT IN (SELECT playerId FROM GetAllInjuredPlayers WHERE matchId = m.matchId)
@@ -78,7 +85,7 @@ AND localTeam.teamId = m.localTeamId
 AND visitorTeam.teamId = m.visitorTeamId
 ORDER BY m.dateTime DESC;
 CREATE VIEW GetAllMatchPlayers AS
-SELECT mp.matchId, p.playerId, (p.name || ' ' || p.surname) as fullName, p.nickname, m.dateTime, localTeam.name as local, visitorTeam.name as visitor
+SELECT mp.matchId, p.playerId, (p.name || ' ' || p.firstSurname || ' ' || p.secondSurname) as fullName, p.nickname, m.dateTime, localTeam.name as local, visitorTeam.name as visitor
 FROM Player p, MatchPlayer mp, Match m, Team localTeam, Team visitorTeam
 WHERE p.playerId = mp.playerId
 AND m.matchId = mp.matchId
@@ -86,7 +93,7 @@ AND localTeam.teamId = m.localTeamId
 AND visitorTeam.teamId = m.visitorTeamId
 ORDER BY m.dateTime DESC, p.playerId;
 CREATE VIEW GetAllInjuredPlayers AS
-SELECT ip.matchId, p.playerId, (p.name || ' ' || p.surname) as fullName, p.nickname, m.dateTime, localTeam.name as local, visitorTeam.name as visitor
+SELECT ip.matchId, p.playerId, (p.name || ' ' || p.firstSurname || ' ' || p.secondSurname) as fullName, p.nickname, m.dateTime, localTeam.name as local, visitorTeam.name as visitor
 FROM Player p, InjuredPlayer ip, Match m, Team localTeam, Team visitorTeam
 WHERE p.playerId = ip.playerId
 AND ip.matchId = m.matchId
