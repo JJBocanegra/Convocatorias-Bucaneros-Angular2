@@ -8,10 +8,6 @@ require 'classes/player.php';
 require 'classes/match.php';
 require 'classes/matchPlayer.php';
 
-foreach ($_GET as $key=>$val) {
-  echo $key." = ".$val;
-}
-
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -23,6 +19,11 @@ function getState($app, $result) {
   return $app->json($result, 200);
 }
 
+//Cause Angular send first and OPTIONS call, this should be used
+$app->match("{url}", function($url) use ($app) {
+  return "OK";
+})->assert('url', '.*')->method("OPTIONS");
+
 //********************PLAYER********************
 $app['player'] = function($app) {
   return new Player();
@@ -30,6 +31,12 @@ $app['player'] = function($app) {
 
 $app->get('/players/{playerId}', function($playerId) use ($app) {
   $result = $app['player']->GetPlayerById($playerId);
+
+  return getState($app, $result);
+});
+
+$app->put('/players/{playerId}', function(Request $request, $playerId) use ($app) {
+  $result = $app['player']->UpdatePlayer($request->getContent(), $playerId);
 
   return getState($app, $result);
 });
