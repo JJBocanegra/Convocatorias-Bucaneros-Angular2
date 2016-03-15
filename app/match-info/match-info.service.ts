@@ -9,7 +9,7 @@ import {HelperService} from '../helper/helper.service';
 export class MatchInfoService {
 
   constructor(
-    private http: Http, 
+    private http: Http,
     private dateTimeService: DateTimeService,
     private helperService: HelperService) { }
 
