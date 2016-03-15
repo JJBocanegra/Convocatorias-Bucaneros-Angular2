@@ -1,0 +1,26 @@
+<h2>Añadir un nuevo jugador</h2>
+
+<p>
+  Nombre:
+  <input [(ngModel)]="player.name" placeholder="Nombre" type="text" />
+</p>
+
+<p>
+  Apellidos:
+  <input [(ngModel)]="player.firstSurname" placeholder="Primer apellido" type="text" />
+  <input [(ngModel)]="player.secondSurname" placeholder="Segundo apellido" type="text" />
+</p>
+
+<p>
+  Apodo:
+  <input [(ngModel)]="player.nickname" placeholder="Apodo" type="text" />
+</p>
+
+<p>
+  Fecha de nacimiento:
+  <input [(ngModel)]="player.birthDate" placeholder="aaaa-mm-dd" type="text" />
+</p>
+
+<div>
+  <button (click)="createPlayer()">Guardar</button>
+</div>
