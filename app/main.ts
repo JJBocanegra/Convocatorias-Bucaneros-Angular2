@@ -12,5 +12,5 @@ bootstrap(AppComponent, [
   HTTP_PROVIDERS,
   ROUTER_PROVIDERS,
   DateTimeService,
-  HelperService
+  HelperService,
 ]);
