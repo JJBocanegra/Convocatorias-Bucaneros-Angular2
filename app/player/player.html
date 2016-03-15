@@ -6,20 +6,20 @@
   <p>
     Nombre:
     <span *ngIf="!editingPlayer">{{player.name}}</span>
-    <input *ngIf="editingPlayer" [(ngModel)]="player.name" type="text" />
+    <input *ngIf="editingPlayer" [(ngModel)]="player.name" placeholder="Nombre" type="text" />
   </p>
 
   <p>
     Apellidos:
     <span *ngIf="!editingPlayer">{{player.firstSurname}} {{player.secondSurname}}</span>
-    <input *ngIf="editingPlayer" [(ngModel)]="player.firstSurname" type="text" />
-    <input *ngIf="editingPlayer" [(ngModel)]="player.secondSurname" type="text" />
+    <input *ngIf="editingPlayer" [(ngModel)]="player.firstSurname" placeholder="Primer apellido" type="text" />
+    <input *ngIf="editingPlayer" [(ngModel)]="player.secondSurname" placeholder="Segundo apellido" type="text" />
   </p>
 
   <p>
     Apodo:
     <span *ngIf="!editingPlayer">{{showNickname()}}</span>
-    <input *ngIf="editingPlayer" [(ngModel)]="player.nickname" type="text" />
+    <input *ngIf="editingPlayer" [(ngModel)]="player.nickname" placeholder="Apodo" type="text" />
   </p>
 
   <p>
