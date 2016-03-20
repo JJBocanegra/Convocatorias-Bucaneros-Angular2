@@ -3,7 +3,6 @@ require_once 'dbUtils.php';
 require_once 'classes/player.php';
 
 class MatchPlayer {
-
   private $DBUtils;
   private $Player;
 

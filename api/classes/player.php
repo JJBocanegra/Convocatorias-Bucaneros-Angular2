@@ -2,7 +2,6 @@
 require_once 'dbUtils.php';
 
 class Player {
-
   private $DBUtils;
 
   public function __construct() {

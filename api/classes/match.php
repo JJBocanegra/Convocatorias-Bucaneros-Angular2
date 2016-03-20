@@ -2,7 +2,6 @@
 require_once 'dbUtils.php';
 
 class Match {
-
   private $DBUtils;
 
   public function __construct() {
