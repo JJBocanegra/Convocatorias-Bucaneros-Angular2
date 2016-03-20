@@ -48,7 +48,7 @@ class Player {
       SET name = :name, firstSurname = :firstSurname, secondSurname = :secondSurname, nickname = :nickname, birthDate = :birthDate, hasImage = :hasImage
       WHERE playerId = :playerId";
 
-    $playerData = json_dec2ode($player, true);
+    $playerData = json_decode($player, true);
 
     $parameters = array(
       ':playerId' => $playerId,
