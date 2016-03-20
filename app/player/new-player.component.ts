@@ -19,7 +19,14 @@ export class NewPlayer implements OnInit {
   createPlayer(): any {
     this.playerService.createPlayer(this.player)
       .subscribe(
-        player => {
+        createdPlayer => {
+          this.playerService.addPlayerToCurrentSeason(createdPlayer)
+          .subscribe(
+            playerSeason => {
+              console.log(playerSeason);
+            }
+          );
+
           this.player = <Player> {};
           console.log("Jugador insertado con éxito");
         },

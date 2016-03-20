@@ -60,6 +60,38 @@ export class PlayerService {
         .catch(this.helperService.handleError);
   }
 
+  createPlayer(player: Player): any {
+    let url = CONFIG.apiUrl + '/players';
+
+    let body = JSON.stringify(player);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.post(url, body, options)
+        .map(res => res.json()[0])
+        .catch(this.helperService.handleError);
+  }
+
+  addPlayerToCurrentSeason(player: Player): any {
+    let url = CONFIG.apiUrl + '/season/current/players/add/' + player.playerId;
+
+    return this.http.post(url, null)
+        .map(res => res.json()[0])
+        .catch(this.helperService.handleError);
+  }
+
+  private createNewPlayer(player: Player): any {
+    let url = CONFIG.apiUrl + '/players';
+
+    let body = JSON.stringify(player);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.post(url, body, options)
+        .map(res => res.json()[0])
+        .catch(this.helperService.handleError);
+  }
+
   private sortPlayers(players: Player[]): Player[] {
     let sortedPlayers = players.sort(function (a: any, b: any) {
       let comparison;
