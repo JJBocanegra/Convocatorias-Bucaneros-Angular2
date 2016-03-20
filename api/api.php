@@ -2,24 +2,52 @@
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Debug\ErrorHandler;
+use Symfony\Component\Debug\ExceptionHandler;
 
 require 'vendor/autoload.php';
 require 'classes/player.php';
 require 'classes/match.php';
 require 'classes/matchPlayer.php';
+require 'classes/season.php';
 
 $app = new Silex\Application();
 $app['debug'] = true;
 
+$handler_function = function($e) use ($app) {
+  echo $e;
+};
+
+ErrorHandler::register();
+$exceptionHandler = ExceptionHandler::register();
+$exceptionHandler->setHandler($handler_function);
+
+
+//This hold all application controllers
+$app['controllers']
+->assert('playerId', '\d+')
+->assert('matchId', '\d+')
+->assert('seasonId', '\d+');
+
+$app->error(function (\Exception $e, $code) {
+  return new Response('ERROR: '.$e);
+});
+
 function getState($app, $result) {
+  $httpCode = 200;
+
   if(!is_array($result)) {
-    return $app->json($result, 400);
+    $httpCode = 400;
   }
 
-  return $app->json($result, 200);
+  if(count($result) === 0) {
+    $httpCode = 404;
+  }
+
+  return $app->json($result, $httpCode);
 }
 
-//Cause Angular send first and OPTIONS call, this should be used
+//Cause Angular send first an OPTIONS call, this should be used
 $app->match("{url}", function($url) use ($app) {
   return "OK";
 })->assert('url', '.*')->method("OPTIONS");
@@ -35,8 +63,26 @@ $app->get('/players/{playerId}', function($playerId) use ($app) {
   return getState($app, $result);
 });
 
+$app->post('/players', function(Request $request) use ($app) {
+  $result = $app['player']->CreatePlayer($request->getContent());
+
+  return getState($app, $result);
+});
+
 $app->put('/players/{playerId}', function(Request $request, $playerId) use ($app) {
   $result = $app['player']->UpdatePlayer($request->getContent(), $playerId);
+
+  return getState($app, $result);
+});
+
+
+//********************SEASON********************
+$app['season'] = function($app) {
+  return new Season();
+};
+
+$app->post('/season/current/players/add/{playerId}', function($playerId) use ($app) {
+  $result = $app['season']->AddPlayerToCurrentSeason($playerId);
 
   return getState($app, $result);
 });
