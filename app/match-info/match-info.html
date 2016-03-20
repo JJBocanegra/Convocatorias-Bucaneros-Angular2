@@ -1,49 +1,54 @@
 <div *ngIf="nextMatch">
-  <h1>{{nextMatch.localTeam}} vs {{nextMatch.visitorTeam}}</h1>
-  <h2>{{nextMatch.dateTime}}</h2>
-  <h3><a href="{{nextMatch.urlLocalization}}" target="_blank">{{nextMatch.localization}}</a></h3>
+  <div>
+    <h1>{{nextMatch.localTeam}} vs {{nextMatch.visitorTeam}}</h1>
+    <h2>{{nextMatch.dateTime}}</h2>
+    <h3><a href="{{nextMatch.urlLocalization}}" target="_blank">{{nextMatch.localization}}</a></h3>
+  </div>
+
+  <div>
+    <span>Confirmados: {{confirmedPlayers.length}}</span>
+    <span>No confirmados: {{notConfirmedPlayers.length}}</span>
+    <span>Bajas: {{injuredPlayers.length}}</span>
+  </div>
+
+  <div>
+    <select [(ngModel)]="selectedPlayer">
+      <option></option>
+      <option *ngFor="#player of notConfirmedPlayers" value="{{player.playerId}}">
+        {{player.fullName}}
+      </option>
+    </select>
+    <button (click)="confirmPlayerById(selectedPlayer)">Confirmar</button>
+    <button (click)="addInjuredPlayerById(selectedPlayer)">Dar de baja</button>
+  </div>
+
+  <h3>Confirmados</h3>
+  <ul>
+    <li *ngFor="#player of confirmedPlayers">
+      <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
+      <button (click)="addConfirmedPlayerToInjuredPlayers(player)">Dar de baja</button>
+      <button (click)="removeConfirmedPlayer(player)">Eliminar</button>
+    </li>
+  </ul>
+
+  <h3>No confirmados</h3>
+  <ul>
+    <li *ngFor="#player of notConfirmedPlayers">
+      <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
+      <button (click)="confirmPlayer(player)">Confirmar</button>
+      <button (click)="addInjuredPlayer(player)">Dar de baja</button>
+    </li>
+  </ul>
+
+  <h3>Bajas</h3>
+  <ul>
+    <li *ngFor="#player of injuredPlayers">
+      <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
+      <button (click)="confirmInjuredPlayer(player)">Confirmar</button>
+      <button (click)="removeInjuredPlayer(player)">Eliminar</button>
+    </li>
+  </ul>
 </div>
-
-<div>
-  <span>Confirmados: {{confirmedPlayers.length}}</span>
-  <span>No confirmados: {{notConfirmedPlayers.length}}</span>
-  <span>Bajas: {{injuredPlayers.length}}</span>
+<div *ngIf="!nextMatch">
+  <p>No hay ninguna próxima convocatoria</p>
 </div>
-
-<div>
-  <select [(ngModel)]="selectedPlayer">
-    <option></option>
-    <option *ngFor="#player of notConfirmedPlayers" value="{{player.playerId}}">
-      {{player.fullName}}
-    </option>
-  </select>
-  <button (click)="confirmPlayerById(selectedPlayer)">Confirmar</button>
-  <button (click)="addInjuredPlayerById(selectedPlayer)">Dar de baja</button>
-</div>
-
-<h3>Confirmados</h3>
-<ul>
-  <li *ngFor="#player of confirmedPlayers">
-    <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
-    <button (click)="addConfirmedPlayerToInjuredPlayers(player)">Dar de baja</button>
-    <button (click)="removeConfirmedPlayer(player)">Eliminar</button>
-  </li>
-</ul>
-
-<h3>No confirmados</h3>
-<ul>
-  <li *ngFor="#player of notConfirmedPlayers">
-    <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
-    <button (click)="confirmPlayer(player)">Confirmar</button>
-    <button (click)="addInjuredPlayer(player)">Dar de baja</button>
-  </li>
-</ul>
-
-<h3>Bajas</h3>
-<ul>
-  <li *ngFor="#player of injuredPlayers">
-    <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
-    <button (click)="confirmInjuredPlayer(player)">Confirmar</button>
-    <button (click)="removeInjuredPlayer(player)">Eliminar</button>
-  </li>
-</ul>
