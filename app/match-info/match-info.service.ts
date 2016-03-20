@@ -49,7 +49,7 @@ export class MatchInfoService {
   confirmPlayer(matchId: number, playerId: number): any {
     var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed/add/' + playerId;
 
-    return this.http.get(url)
+    return this.http.post(url, null)
         .map(res => res.json()[0])
         .catch(this.helperService.handleError);
   }
@@ -57,7 +57,7 @@ export class MatchInfoService {
   addInjuredPlayer(matchId: number, playerId: number): any {
     var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured/add/' + playerId;
 
-    return this.http.get(url)
+    return this.http.post(url, null)
         .map(res => res.json()[0])
         .catch(this.helperService.handleError);
   }
@@ -65,7 +65,7 @@ export class MatchInfoService {
   removeInjuredPlayer(matchId: number, playerId: number): any {
     var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured/remove/' + playerId;
 
-    return this.http.get(url)
+    return this.http.delete(url)
         .map(res => res.json()[0])
         .catch(this.helperService.handleError);
   }
@@ -73,7 +73,7 @@ export class MatchInfoService {
   removeConfirmedPlayer(matchId: number, playerId: number): any {
     var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed/remove/' + playerId;
 
-    return this.http.get(url)
+    return this.http.delete(url)
         .map(res => res.json()[0])
         .catch(this.helperService.handleError);
   }

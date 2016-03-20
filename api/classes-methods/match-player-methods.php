@@ -11,13 +11,13 @@ $app->get('/matches/{matchId}/players/confirmed', function($matchId) use ($app) 
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/confirmed/add/{playerId}', function($matchId, $playerId) use ($app) {
+$app->post('/matches/{matchId}/players/confirmed/add/{playerId}', function($matchId, $playerId) use ($app) {
   $result = $app['matchPlayer']->AddPlayer($matchId, $playerId);
 
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/confirmed/remove/{playerId}', function($matchId, $playerId) use ($app) {
+$app->delete('/matches/{matchId}/players/confirmed/remove/{playerId}', function($matchId, $playerId) use ($app) {
   $result = $app['matchPlayer']->RemoveConfirmedPlayer($matchId, $playerId);
 
   return getState($app, $result);
@@ -35,13 +35,13 @@ $app->get('/matches/{matchId}/players/injured', function($matchId) use ($app) {
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/injured/add/{playerId}', function($matchId, $playerId) use ($app) {
+$app->post('/matches/{matchId}/players/injured/add/{playerId}', function($matchId, $playerId) use ($app) {
   $result = $app['matchPlayer']->AddInjuredPlayer($matchId, $playerId);
 
   return getState($app, $result);
 });
 
-$app->get('/matches/{matchId}/players/injured/remove/{playerId}', function($matchId, $playerId) use ($app) {
+$app->delete('/matches/{matchId}/players/injured/remove/{playerId}', function($matchId, $playerId) use ($app) {
   $result = $app['matchPlayer']->RemoveInjuredPlayer($matchId, $playerId);
 
   return getState($app, $result);
