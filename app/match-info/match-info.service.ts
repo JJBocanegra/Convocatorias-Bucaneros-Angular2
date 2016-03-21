@@ -14,7 +14,7 @@ export class MatchInfoService {
     private helperService: HelperService) { }
 
   getNextMatch(): any {
-    var url = CONFIG.apiUrl + '/matches/next' //TODO La llamada a la api debería ser `next` en vez de `last`
+    var url = CONFIG.apiUrl + '/matches/next';
 
     return this.http.get(url)
         .map(res => res.json()[0])
