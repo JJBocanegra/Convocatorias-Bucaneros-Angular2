@@ -10,7 +10,7 @@ import {PlayerService} from '../player/player.service';
   templateUrl: 'app/match-info/match-info.html',
   providers: [MatchInfoService, PlayerService],
 })
-export class MatchInfo implements OnInit {
+export class MatchInfoComponent implements OnInit {
   public confirmedPlayers: Player[] = [];
   public injuredPlayers: Player[] = [];
   public matches: Match[] = [];
