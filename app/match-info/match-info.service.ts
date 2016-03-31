@@ -13,6 +13,14 @@ export class MatchInfoService {
     private dateTimeService: DateTimeService,
     private helperService: HelperService) { }
 
+  getMatches(): any {
+    var url = CONFIG.apiUrl + '/matches';
+
+    return this.http.get(url)
+        .map(res => res.json())
+        .catch(this.helperService.handleError);
+  }
+
   getNextMatch(): any {
     var url = CONFIG.apiUrl + '/matches/next';
 

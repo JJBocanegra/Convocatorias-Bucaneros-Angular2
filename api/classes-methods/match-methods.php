@@ -5,7 +5,7 @@ $app['match'] = function($app) {
   return new Match();
 };
 
-$app->get('/matches/', function() use ($app) {
+$app->get('/matches', function() use ($app) {
   $result = $app['match']->GetMatches();
 
   return getState($app, $result);
