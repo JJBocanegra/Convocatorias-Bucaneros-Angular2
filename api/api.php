@@ -24,6 +24,16 @@ $app['controllers']
 ->assert('matchId', '\d+')
 ->assert('seasonId', '\d+');
 
+//Cause Angular send first an OPTIONS call, this should be used
+$app->match("{url}", function($url) use ($app) {
+  return "OK";
+})->assert('url', '.*')->method("OPTIONS");
+
+require_once 'classes-methods/player-methods.php';
+require_once 'classes-methods/season-methods.php';
+require_once 'classes-methods/match-methods.php';
+require_once 'classes-methods/match-player-methods.php';
+
 $app->error(function (\Exception $e, $code) {
   return new Response('ERROR: '.$e);
 });
@@ -41,16 +51,6 @@ function getState($app, $result) {
 
   return $app->json($result, $httpCode);
 }
-
-//Cause Angular send first an OPTIONS call, this should be used
-$app->match("{url}", function($url) use ($app) {
-  return "OK";
-})->assert('url', '.*')->method("OPTIONS");
-
-require_once 'classes-methods/player-methods.php';
-require_once 'classes-methods/season-methods.php';
-require_once 'classes-methods/match-methods.php';
-require_once 'classes-methods/match-player-methods.php';
 
 //run the app to handle the incoming request
 //404, 405 responses are handled automatically
