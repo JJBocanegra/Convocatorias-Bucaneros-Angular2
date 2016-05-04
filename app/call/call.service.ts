@@ -2,33 +2,14 @@ import {Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import {CONFIG} from '../CONFIG';
-import {DateTimeService} from '../date-time/date-time.service';
 import {HelperService} from '../helper/helper.service';
 
 @Injectable()
-export class MatchInfoService {
+export class CallService {
 
   constructor(
     private http: Http,
-    private dateTimeService: DateTimeService,
     private helperService: HelperService) { }
-
-  getMatches(): any {
-    var url = CONFIG.apiUrl + '/matches';
-
-    return this.http.get(url)
-        .map(res => res.json())
-        .catch(this.helperService.handleError);
-  }
-
-  getNextMatch(): any {
-    var url = CONFIG.apiUrl + '/matches/next';
-
-    return this.http.get(url)
-        .map(res => res.json()[0])
-        .do(match => match.dateTime = this.dateTimeService.getCompleteDateTime(match.dateTime))
-        .catch(this.helperService.handleError);
-  }
 
   getConfirmedPlayersByMatchId(matchId: number): any {
     var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed';

@@ -1,8 +1,8 @@
-<div *ngIf="nextMatch">
+<div *ngIf="call">
   <div>
-    <h1>{{nextMatch.localTeam}} vs {{nextMatch.visitorTeam}}</h1>
-    <h2>{{nextMatch.dateTime}}</h2>
-    <h3><a href="{{nextMatch.urlLocalization}}" target="_blank">{{nextMatch.localization}}</a></h3>
+    <h1>{{call.localTeam}} vs {{call.visitorTeam}}</h1>
+    <h2>{{call.dateTime}}</h2>
+    <h3><a href="{{call.urlLocalization}}" target="_blank">{{call.localization}}</a></h3>
   </div>
 
   <div>
@@ -49,6 +49,6 @@
     </li>
   </ul>
 </div>
-<div *ngIf="!nextMatch">
+<div *ngIf="!call">
   <p>No hay ninguna próxima convocatoria</p>
 </div>

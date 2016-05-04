@@ -32,6 +32,10 @@ export class PlayerService {
   getPlayersFullNames(players: Player[]): Player[] {
     let player;
 
+    if (players.length === 0) {
+      return players;
+    }
+
     for (let i = players.length - 1; i >= 0; i--) {
       player = players[i];
       player = this.getPlayerFullName(player);

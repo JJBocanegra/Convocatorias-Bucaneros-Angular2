@@ -1,37 +1,57 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router} from 'angular2/router';
-import {Match} from './match';
+import {RouteParams} from 'angular2/router';
+import {Match} from '../match/match';
 import {Player} from '../player/player';
-import {MatchInfoService} from './match-info.service';
+import {CallService} from './call.service';
+import {MatchService} from '../match/match.service';
 import {PlayerService} from '../player/player.service';
 
 @Component({
-  selector: 'match-info',
-  templateUrl: 'app/match-info/match-info.html',
-  providers: [MatchInfoService, PlayerService],
+  selector: 'call',
+  templateUrl: 'app/call/call.html',
+  providers: [CallService, MatchService, PlayerService],
 })
-export class MatchInfoComponent implements OnInit {
+export class CallComponent implements OnInit {
   public confirmedPlayers: Player[] = [];
   public injuredPlayers: Player[] = [];
-  public matches: Match[] = [];
-  public nextMatch: Match;
+  public call: Match;
   public notConfirmedPlayers: Player[] = [];
   public selectedPlayer: number;
 
   constructor(
-    private matchInfoService: MatchInfoService,
+    private callService: CallService,
+    private matchService: MatchService,
     private playerService: PlayerService,
-    private router: Router) { }
+    private router: Router,
+    private routeParams: RouteParams) { }
 
   ngOnInit(): void {
-    this.getNextMatch();
+    let callId = this.routeParams.get('id');
+
+    if (callId === null) {
+      this.getNextMatch();
+    } else {
+      this.getMatchById(parseInt(callId));
+    }
+  }
+
+  getMatchById(matchId: number): void {
+    this.matchService.getMatchById(matchId)
+      .subscribe(
+        call => {
+          this.call = call;
+          this.getPlayers();
+        },
+        error => {}
+      );
   }
 
   getNextMatch(): void {
-    this.matchInfoService.getNextMatch()
+    this.matchService.getNextMatch()
       .subscribe(
-        match => {
-          this.nextMatch = match;
+        call => {
+          this.call = call;
           this.getPlayers();
         },
         error => {}
@@ -45,7 +65,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   getConfirmedPlayers(): void {
-    this.matchInfoService.getConfirmedPlayersByMatchId(this.nextMatch.matchId)
+    this.callService.getConfirmedPlayersByMatchId(this.call.matchId)
       .subscribe(
         players => {
           this.confirmedPlayers = this.playerService.getPlayersFullNames(players);
@@ -59,7 +79,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   confirmPlayerById(playerId: number): void {
-    this.matchInfoService.confirmPlayer(this.nextMatch.matchId, playerId)
+    this.callService.confirmPlayer(this.call.matchId, playerId)
     .subscribe(
       player => {
         this.getConfirmedPlayers();
@@ -70,7 +90,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   removeConfirmedPlayer(confirmedPlayer): void {
-    this.matchInfoService.removeConfirmedPlayer(this.nextMatch.matchId, confirmedPlayer.playerId)
+    this.callService.removeConfirmedPlayer(this.call.matchId, confirmedPlayer.playerId)
     .subscribe(
       player => {
         this.getConfirmedPlayers();
@@ -86,7 +106,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   getNotConfirmedPlayers(): void {
-    this.matchInfoService.getNotConfirmedPlayersByMatchId(this.nextMatch.matchId)
+    this.callService.getNotConfirmedPlayersByMatchId(this.call.matchId)
       .subscribe(
         players => {
           this.notConfirmedPlayers = this.playerService.getPlayersFullNames(players);
@@ -96,7 +116,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   getInjuredPlayers(): void {
-    this.matchInfoService.getInjuredPlayersByMatchId(this.nextMatch.matchId)
+    this.callService.getInjuredPlayersByMatchId(this.call.matchId)
       .subscribe(
         players => {
           this.injuredPlayers = this.playerService.getPlayersFullNames(players);
@@ -110,7 +130,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   addInjuredPlayerById(playerId: number): void {
-    this.matchInfoService.addInjuredPlayer(this.nextMatch.matchId, playerId)
+    this.callService.addInjuredPlayer(this.call.matchId, playerId)
     .subscribe(
       player => {
         this.getInjuredPlayers();
@@ -126,7 +146,7 @@ export class MatchInfoComponent implements OnInit {
   }
 
   removeInjuredPlayer(injuredPlayer): void {
-    this.matchInfoService.removeInjuredPlayer(this.nextMatch.matchId, injuredPlayer.playerId)
+    this.callService.removeInjuredPlayer(this.call.matchId, injuredPlayer.playerId)
     .subscribe(
       player => {
         this.getInjuredPlayers();
