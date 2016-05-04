@@ -45,9 +45,9 @@ function getState($app, $result) {
     $httpCode = 400;
   }
 
-  if(count($result) === 0) {
-    $httpCode = 404;
-  }
+  // if(count($result) === 0) {
+  //   $httpCode = 404;
+  // }
 
   return $app->json($result, $httpCode);
 }
