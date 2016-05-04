@@ -14,7 +14,7 @@ export class MatchService {
     private helperService: HelperService) { }
 
   getMatchById(matchId: number): any {
-      var url = CONFIG.apiUrl + '/matches/' + matchId;
+      let url = CONFIG.apiUrl + '/matches/' + matchId;
 
       return this.http.get(url)
           .map(res => res.json()[0])
@@ -23,7 +23,7 @@ export class MatchService {
     }
 
   getNextMatch(): any {
-    var url = CONFIG.apiUrl + '/matches/next';
+    let url = CONFIG.apiUrl + '/matches/next';
 
     return this.http.get(url)
         .map(res => res.json()[0])

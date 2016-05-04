@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {Player} from './player';
 import {PlayerService} from './player.service';
 
@@ -7,14 +7,11 @@ import {PlayerService} from './player.service';
   templateUrl: 'app/player/new-player.html',
   providers: [PlayerService],
 })
-export class NewPlayer implements OnInit {
-  public player: Player = <Player> {};
+export class NewPlayer {
+  public player: Player = {} as Player;
 
   constructor(
     private playerService: PlayerService) { }
-
-  ngOnInit(): void {
-  }
 
   createPlayer(): any {
     this.playerService.createPlayer(this.player)
@@ -27,10 +24,9 @@ export class NewPlayer implements OnInit {
             }
           );
 
-          this.player = <Player> {};
-          console.log("Jugador insertado con éxito");
-        },
-        error => { }
+          this.player = {} as Player;
+          console.log('Jugador insertado con éxito');
+        }
       );
   }
 }

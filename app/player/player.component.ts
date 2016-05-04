@@ -29,8 +29,7 @@ export class PlayerInfo implements OnInit {
       .subscribe(
         player => {
           this.player = player;
-        },
-        error => { }
+        }
       );
   }
 
@@ -38,16 +37,15 @@ export class PlayerInfo implements OnInit {
     return this.dateTimeService.getBirthDate(birthDate);
   }
 
-  showNickname() {
+  showNickname(): string {
     if (!this.player.nickname) {
       return 'No tiene';
-
     }
 
     return this.player.nickname;
   }
 
-  showBirthDate() {
+  showBirthDate(): string {
     let formattedBirthDate;
     let age;
 
@@ -56,7 +54,7 @@ export class PlayerInfo implements OnInit {
     }
 
     formattedBirthDate = this.showFormatedDate(this.player.birthDate);
-    age = this.calculateAge(this.player.birthDate)
+    age = this.calculateAge(this.player.birthDate);
 
     return formattedBirthDate + ' (' + age + ' años)';
   }
@@ -77,8 +75,7 @@ export class PlayerInfo implements OnInit {
       .subscribe(
         player => {
           this.player = player;
-        },
-        error => { }
+        }
       );
   }
 

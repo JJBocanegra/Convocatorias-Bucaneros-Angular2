@@ -12,7 +12,7 @@ export class CallService {
     private helperService: HelperService) { }
 
   getConfirmedPlayersByMatchId(matchId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed';
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed';
 
     return this.http.get(url)
         .map(res => res.json())
@@ -20,7 +20,7 @@ export class CallService {
   }
 
   getNotConfirmedPlayersByMatchId(matchId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/notConfirmed';
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/notConfirmed';
 
     return this.http.get(url)
         .map(res => res.json())
@@ -28,7 +28,7 @@ export class CallService {
   }
 
   getInjuredPlayersByMatchId(matchId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured';
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured';
 
     return this.http.get(url)
         .map(res => res.json())
@@ -36,7 +36,7 @@ export class CallService {
   }
 
   confirmPlayer(matchId: number, playerId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed/add/' + playerId;
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed/add/' + playerId;
 
     return this.http.post(url, null)
         .map(res => res.json()[0])
@@ -44,7 +44,7 @@ export class CallService {
   }
 
   addInjuredPlayer(matchId: number, playerId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured/add/' + playerId;
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured/add/' + playerId;
 
     return this.http.post(url, null)
         .map(res => res.json()[0])
@@ -52,7 +52,7 @@ export class CallService {
   }
 
   removeInjuredPlayer(matchId: number, playerId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured/remove/' + playerId;
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/injured/remove/' + playerId;
 
     return this.http.delete(url)
         .map(res => res.json()[0])
@@ -60,7 +60,7 @@ export class CallService {
   }
 
   removeConfirmedPlayer(matchId: number, playerId: number): any {
-    var url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed/remove/' + playerId;
+    let url = CONFIG.apiUrl + '/matches/' + matchId + '/players/confirmed/remove/' + playerId;
 
     return this.http.delete(url)
         .map(res => res.json()[0])

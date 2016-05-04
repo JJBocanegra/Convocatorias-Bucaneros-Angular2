@@ -42,8 +42,7 @@ export class CallComponent implements OnInit {
         call => {
           this.call = call;
           this.getPlayers();
-        },
-        error => {}
+        }
       );
   }
 
@@ -53,8 +52,7 @@ export class CallComponent implements OnInit {
         call => {
           this.call = call;
           this.getPlayers();
-        },
-        error => {}
+        }
       );
   }
 
@@ -69,8 +67,7 @@ export class CallComponent implements OnInit {
       .subscribe(
         players => {
           this.confirmedPlayers = this.playerService.getPlayersFullNames(players);
-        },
-        error => {}
+        }
       );
   }
 
@@ -84,23 +81,21 @@ export class CallComponent implements OnInit {
       player => {
         this.getConfirmedPlayers();
         this.getNotConfirmedPlayers();
-      },
-      error => {}
+      }
     );
   }
 
-  removeConfirmedPlayer(confirmedPlayer): void {
+  removeConfirmedPlayer(confirmedPlayer: Player): void {
     this.callService.removeConfirmedPlayer(this.call.matchId, confirmedPlayer.playerId)
     .subscribe(
       player => {
         this.getConfirmedPlayers();
         this.getNotConfirmedPlayers();
-      },
-      error => {}
+      }
     );
   }
 
-  addConfirmedPlayerToInjuredPlayers(confirmedPlayer): void {
+  addConfirmedPlayerToInjuredPlayers(confirmedPlayer: Player): void {
     this.removeConfirmedPlayer(confirmedPlayer);
     this.addInjuredPlayer(confirmedPlayer);
   }
@@ -110,8 +105,7 @@ export class CallComponent implements OnInit {
       .subscribe(
         players => {
           this.notConfirmedPlayers = this.playerService.getPlayersFullNames(players);
-        },
-        error => {}
+        }
       );
   }
 
@@ -120,8 +114,7 @@ export class CallComponent implements OnInit {
       .subscribe(
         players => {
           this.injuredPlayers = this.playerService.getPlayersFullNames(players);
-        },
-        error => {}
+        }
       );
   }
 
@@ -135,28 +128,26 @@ export class CallComponent implements OnInit {
       player => {
         this.getInjuredPlayers();
         this.getNotConfirmedPlayers();
-      },
-      error => {}
+      }
     );
   }
 
-  confirmInjuredPlayer(injuredPlayer): void {
+  confirmInjuredPlayer(injuredPlayer: Player): void {
     this.removeInjuredPlayer(injuredPlayer);
     this.confirmPlayer(injuredPlayer);
   }
 
-  removeInjuredPlayer(injuredPlayer): void {
+  removeInjuredPlayer(injuredPlayer: Player): void {
     this.callService.removeInjuredPlayer(this.call.matchId, injuredPlayer.playerId)
     .subscribe(
       player => {
         this.getInjuredPlayers();
         this.getNotConfirmedPlayers();
-      },
-      error => {}
+      }
     );
   }
 
-  goToPlayerInfo(player: Player) {
+  goToPlayerInfo(player: Player): void {
     this.router.navigate(['PlayerInfo', {id: player.playerId}]);
   }
 }

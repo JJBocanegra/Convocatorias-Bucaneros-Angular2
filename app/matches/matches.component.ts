@@ -24,12 +24,11 @@ export class MatchesComponent implements OnInit {
       .subscribe(
         matches => {
           this.matches = matches;
-        },
-        error => {}
+        }
       );
   }
 
-  goToMatchInfo(match: Match) {
+  goToMatchInfo(match: Match): void {
     this.router.navigate(['Call', {id: match.matchId}]);
   }
 }

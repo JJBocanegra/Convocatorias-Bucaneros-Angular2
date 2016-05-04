@@ -8,12 +8,12 @@ export class DateTimeService {
     moment.updateLocale('es', {
       months: [
         'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre',
       ],
       weekdays: [
         'lunes', 'martes', 'miércoles', 'jueves',
-        'viernes', 'sábado', 'domingo'
-      ]
+        'viernes', 'sábado', 'domingo',
+      ],
     });
   }
 
@@ -39,7 +39,7 @@ export class DateTimeService {
         return null;
       }
 
-      return moment(date, 'YYYY-MM-DD').format('DD [de] MMMM [de] YYYY')
+      return moment(date, 'YYYY-MM-DD').format('DD [de] MMMM [de] YYYY');
     } catch (error) {
       console.error(error);
     }
