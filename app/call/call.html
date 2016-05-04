@@ -11,10 +11,10 @@
     <span>Bajas: {{injuredPlayers.length}}</span>
   </div>
 
-  <div>
+  <div *ngIf="notConfirmedPlayers.length > 0">
     <select [(ngModel)]="selectedPlayer">
       <option></option>
-      <option *ngFor="#player of notConfirmedPlayers" value="{{player.playerId}}">
+      <option *ngFor="let player of notConfirmedPlayers" value="{{player.playerId}}">
         {{player.fullName}}
       </option>
     </select>
@@ -24,7 +24,7 @@
 
   <h3>Confirmados</h3>
   <ul>
-    <li *ngFor="#player of confirmedPlayers">
+    <li *ngFor="let player of confirmedPlayers">
       <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
       <button (click)="addConfirmedPlayerToInjuredPlayers(player)">Dar de baja</button>
       <button (click)="removeConfirmedPlayer(player)">Eliminar</button>
@@ -33,7 +33,7 @@
 
   <h3>No confirmados</h3>
   <ul>
-    <li *ngFor="#player of notConfirmedPlayers">
+    <li *ngFor="let player of notConfirmedPlayers">
       <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
       <button (click)="confirmPlayer(player)">Confirmar</button>
       <button (click)="addInjuredPlayer(player)">Dar de baja</button>
@@ -42,7 +42,7 @@
 
   <h3>Bajas</h3>
   <ul>
-    <li *ngFor="#player of injuredPlayers">
+    <li *ngFor="let player of injuredPlayers">
       <a (click)="goToPlayerInfo(player)">{{player.fullName}}</a>
       <button (click)="confirmInjuredPlayer(player)">Confirmar</button>
       <button (click)="removeInjuredPlayer(player)">Eliminar</button>

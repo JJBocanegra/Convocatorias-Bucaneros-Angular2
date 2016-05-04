@@ -1,6 +1,6 @@
 <div *ngIf="matches">
   <ul>
-    <li *ngFor="#match of matches">
+    <li *ngFor="let match of matches">
       <a (click)="goToMatchInfo(match)">[{{match.dateTime}}]  {{match.localTeam}} VS {{match.visitorTeam}}</a>
     </li>
   </ul>

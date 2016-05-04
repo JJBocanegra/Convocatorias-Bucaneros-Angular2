@@ -7,26 +7,37 @@
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
-    "postinstall": "typings install",
-    "test2": "lite-server -c bs-config-tests.json",
-    "test": "lite-server --open src --indexFile unit-tests.html --port 3002"
+    "postinstall": "typings install"
   },
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.12",
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/compiler": "2.0.0-rc.1",
+    "@angular/core": "2.0.0-rc.1",
+    "@angular/http": "2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.1",
+    "@angular/router": "2.0.0-rc.1",
+    "@angular/router-deprecated": "2.0.0-rc.1",
+    "@angular/upgrade": "2.0.0-rc.1",
+
+    "systemjs": "0.19.27",
     "es6-shim": "^0.35.0",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "5.0.0-beta.6",
+    "zone.js": "^0.6.12",
+
+    "angular2-in-memory-web-api": "0.0.7",
+    "bootstrap": "^3.3.6",
+
     "moment": "^2.11.2",
-    "ng2-bootstrap": "^1.0.5",
-    "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.2",
-    "systemjs": "0.19.24",
-    "zone.js": "0.6.6"
+    "ng2-bootstrap": "^1.0.5"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
-    "lite-server": "^2.1.0",
     "jasmine-core": "2.4.1",
-    "typescript": "^1.8.9",
-    "typings": "^0.7.9"
+    "lite-server": "^2.2.0",
+    "typescript": "^1.8.10",
+    "typings": "^0.8.1"
   }
 }

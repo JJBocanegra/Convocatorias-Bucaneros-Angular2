@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {Router} from 'angular2/router';
-import {RouteParams} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
+import {RouteParams} from '@angular/router-deprecated';
 import {Match} from '../match/match';
 import {Player} from '../player/player';
 import {CallService} from './call.service';
