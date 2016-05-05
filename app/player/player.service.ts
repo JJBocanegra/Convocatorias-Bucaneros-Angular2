@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {CONFIG} from '../CONFIG';
+
+import {CONFIG} from '../shared/index';
+import {HelperService} from '../helper/index';
 import {Player} from './player';
-import {HelperService} from '../helper/helper.service';
 
 @Injectable()
 export class PlayerService {

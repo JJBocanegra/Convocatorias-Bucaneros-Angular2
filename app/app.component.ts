@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-import {CallComponent} from './call/call.component';
-import {MatchesComponent} from './matches/matches.component';
-import {PlayerInfo} from './player/player.component';
-import {NewPlayer} from './player/new-player.component';
+
+import {CallComponent} from './call/index';
+import {MatchesComponent} from './matches/index';
+import {PlayerInfo, NewPlayer} from './player/index';
 
 @Component({
   selector: 'my-app',

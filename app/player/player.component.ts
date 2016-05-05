@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {RouteParams} from '@angular/router-deprecated';
+
+import {DateTimeService} from '../date-time/index';
 import {Player} from './player';
 import {PlayerService} from './player.service';
-import {DateTimeService} from '../date-time/date-time.service';
 
 @Component({
   selector: 'player',
-  templateUrl: 'app/player/player.html',
+  templateUrl: 'app/player/player.component.html',
   providers: [PlayerService, DateTimeService],
 })
 export class PlayerInfo implements OnInit {

@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {CONFIG} from '../CONFIG';
-import {DateTimeService} from '../date-time/date-time.service';
-import {HelperService} from '../helper/helper.service';
+
+import {CONFIG} from '../shared/index';
+import {DateTimeService} from '../date-time/index';
+import {HelperService} from '../helper/index';
 
 @Injectable()
 export class MatchService {

@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router-deprecated';
-import {Match} from '../match/match';
+
+import {Match} from '../match/index';
 import {MatchesService} from '../matches/matches.service';
 
 @Component({
   selector: 'matches',
-  templateUrl: 'app/matches/matches.html',
+  templateUrl: 'app/matches/matches.component.html',
   providers: [MatchesService],
 })
 export class MatchesComponent implements OnInit {

@@ -1,15 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-import {RouteParams} from '@angular/router-deprecated';
-import {Match} from '../match/match';
-import {Player} from '../player/player';
+import {Router, RouteParams} from '@angular/router-deprecated';
+
 import {CallService} from './call.service';
-import {MatchService} from '../match/match.service';
-import {PlayerService} from '../player/player.service';
+import {Match, MatchService} from '../match/index';
+import {Player, PlayerService} from '../player/index';
 
 @Component({
   selector: 'call',
-  templateUrl: 'app/call/call.html',
+  templateUrl: 'app/call/call.component.html',
   providers: [CallService, MatchService, PlayerService],
 })
 export class CallComponent implements OnInit {
