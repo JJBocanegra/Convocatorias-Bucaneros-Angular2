@@ -7,7 +7,7 @@ import {PlayerInfo, NewPlayer} from './player/index';
 
 @Component({
   selector: 'my-app',
-  templateUrl: 'app/app.html',
+  templateUrl: 'app/app.component.html',
   directives: [CallComponent, NewPlayer, ROUTER_DIRECTIVES],
 })
 @RouteConfig([
